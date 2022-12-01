@@ -1,13 +1,18 @@
 package com.closeratio.aoc2022.controller
 
 import com.closeratio.aoc2022.common.AocRunner
+import com.closeratio.aoc2022.controller.response.RunResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus.*
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.Duration
+import java.time.LocalDateTime
 
-@RestController("/api/v1/run")
+@RestController
+@RequestMapping("/api/v1/run")
 class RunnerController(
     runners: List<AocRunner>
 ) {
@@ -25,33 +30,55 @@ class RunnerController(
             }
     }
 
-    @PostMapping("/day/{day}/part/{part}")
+    @PostMapping
     fun run(
-        @PathVariable day: Int,
-        @PathVariable part: Int
-    ): String {
-        val runner = runnerMap[day] ?: throw RunnerNotFoundException(day)
+        @RequestParam("day") day: Int?,
+        @RequestParam("part") part: Int?
+    ): RunResponse {
 
-        val function =  when (part) {
-            1 -> runner::runPart1
-            2 -> runner::runPart2
+        // Get the latest day if the day isn't provided
+        val derivedDay = day ?: runnerMap.keys.maxBy { it }
+        val runner = runnerMap[derivedDay] ?: throw RunnerNotFoundException(derivedDay)
+
+        // Get the latest part if the part isn't provided
+        val derivedPart = when (part) {
+            1 -> 1
+            2 -> 2
+            null -> {
+                if (runner.part2Function() != null) 2 else 1
+            }
             else -> throw InvalidPartException(part)
         }
 
+        val function = when (derivedPart) {
+            1 -> runner.part1Function()
+            2 -> runner.part2Function()
+            else -> throw IllegalStateException()
+        } ?: throw IllegalStateException()
+
         return try {
-            log.info("Running day $day part $part")
+            log.info("Running $derivedDay part $derivedPart")
+            val startTime = LocalDateTime.now()
             val result = function()
+            val endTime = LocalDateTime.now()
+            val duration = Duration.between(startTime, endTime)
             log.info("Result is: $result")
-            result
+            log.info("Took ${duration.toMillis()}ms")
+            RunResponse(
+                derivedDay,
+                derivedPart,
+                result,
+                "${duration.toMillis()}ms"
+            )
         } catch (ex: Exception) {
             throw RunnerException(ex)
         }
     }
 
-    class RunnerNotFoundException(day: Int): RuntimeException("Runner not found for day $day")
+    class RunnerNotFoundException(day: Int) : RuntimeException("Runner not found for day $day")
 
-    class InvalidPartException(part: Int): RuntimeException("Each runner only has part 1 and 2. Requested $part")
+    class InvalidPartException(part: Int) : RuntimeException("Each runner only has part 1 and 2. Requested $part")
 
-    class RunnerException(cause: Exception): RuntimeException(cause)
+    class RunnerException(cause: Exception) : RuntimeException(cause)
 
 }

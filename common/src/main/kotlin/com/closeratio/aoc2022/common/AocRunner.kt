@@ -1,11 +1,11 @@
 package com.closeratio.aoc2022.common
 
-interface AocRunner {
+abstract class AocRunner {
 
-    fun getDay(): Int
+    abstract fun getDay(): Int
 
-    fun runPart1(): String
+    open fun part1Function(): (() -> Any)? = null
 
-    fun runPart2(): String
+    open fun part2Function(): (() -> Any)? = null
 
 }

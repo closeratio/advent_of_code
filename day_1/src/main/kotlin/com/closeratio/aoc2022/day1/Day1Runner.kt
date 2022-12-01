@@ -4,16 +4,20 @@ import com.closeratio.aoc2022.common.AocRunner
 import org.springframework.stereotype.Component
 
 @Component
-class Day1Runner: AocRunner {
+class Day1Runner(
+    private val calorieCounter: CalorieCounter
+): AocRunner() {
 
     override fun getDay(): Int = 1
 
-    override fun runPart1(): String {
-        TODO("Not yet implemented")
+    override fun part1Function(): () -> Long = {
+        calorieCounter.largestCalorieGroup("/input.txt").total()
     }
 
-    override fun runPart2(): String {
-        TODO("Not yet implemented")
+    override fun part2Function(): () -> Long = {
+        calorieCounter.top3Groups("/input.txt")
+            .map(CalorieGroup::total)
+            .sum()
     }
 
 }
