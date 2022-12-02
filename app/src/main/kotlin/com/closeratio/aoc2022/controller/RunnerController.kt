@@ -57,7 +57,7 @@ class RunnerController(
         } ?: throw IllegalStateException()
 
         return try {
-            log.info("Running $derivedDay part $derivedPart")
+            log.info("Running day $derivedDay part $derivedPart")
             val startTime = LocalDateTime.now()
             val result = function()
             val endTime = LocalDateTime.now()
@@ -71,6 +71,7 @@ class RunnerController(
                 "${duration.toMillis()}ms"
             )
         } catch (ex: Exception) {
+            log.error("Exception thrown running $derivedDay part $derivedPart", ex)
             throw RunnerException(ex)
         }
     }

@@ -11,11 +11,11 @@ class Day1Runner(
     override fun getDay(): Int = 1
 
     override fun part1Function(): () -> Long = {
-        calorieCounter.largestCalorieGroup("/input.txt").total()
+        calorieCounter.largestCalorieGroup("/day_1_input.txt").total()
     }
 
     override fun part2Function(): () -> Long = {
-        calorieCounter.top3Groups("/input.txt")
+        calorieCounter.top3Groups("/day_1_input.txt")
             .map(CalorieGroup::total)
             .sum()
     }
