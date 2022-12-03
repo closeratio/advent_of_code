@@ -19,6 +19,14 @@ class Day3Runner(
         backpacks.sumOf(Backpack::prioritySum)
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        resourceLoader
+            .loadResourceLines("/day_3_input.txt")
+            .chunked(3)
+            .map { (first, second, third) ->
+                Backpack.from(first).commonItem(Backpack.from(second), Backpack.from(third))
+            }
+            .sumOf(Item::priority)
+    }
 
 }

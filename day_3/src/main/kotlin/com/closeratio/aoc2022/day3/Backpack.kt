@@ -11,6 +11,11 @@ data class Backpack(
         return common.sumOf(Item::priority)
     }
 
+    fun commonItem(first: Backpack, second: Backpack): Item = itemSet
+        .intersect(first.itemSet)
+        .intersect(second.itemSet)
+        .first()
+
     companion object {
         fun from(line: String): Backpack = Backpack(
             line.take(line.length / 2).let(Compartment.Companion::from),

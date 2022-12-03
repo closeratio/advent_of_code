@@ -25,5 +25,17 @@ class BackpackTest {
         assertThat(result).isEqualTo(157)
     }
 
+    @Test
+    fun commonItem_givenTestInput_computesExpectedValue() {
+        val result = resourceLoader
+            .loadResourceLines("/test_input.txt")
+            .chunked(3)
+            .map { (first, second, third) ->
+                Backpack.from(first).commonItem(Backpack.from(second), Backpack.from(third))
+            }.sumOf(Item::priority)
+
+        assertThat(result).isEqualTo(70)
+    }
+
 
 }
