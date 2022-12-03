@@ -1,7 +1,7 @@
 package com.closeratio.aoc2022.day3
 
-import com.closeratio.aoc2022.common.Aoc2022Runner
-import com.closeratio.aoc2022.common.ResourceLoader
+import com.closeratio.aoc.common.Aoc2022Runner
+import com.closeratio.aoc.common.ResourceLoader
 import org.springframework.stereotype.Component
 
 @Component

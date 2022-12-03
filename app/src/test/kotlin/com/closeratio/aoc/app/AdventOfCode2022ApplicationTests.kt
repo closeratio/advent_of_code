@@ -1,9 +1,9 @@
-package com.closeratio.aoc2022
+package com.closeratio.aoc.app
 
+import com.closeratio.aoc.common.AocTest
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+@AocTest
 class AdventOfCode2022ApplicationTests {
 
 	@Test

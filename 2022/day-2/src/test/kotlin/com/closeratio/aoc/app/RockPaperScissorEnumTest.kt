@@ -1,7 +1,7 @@
-package com.closeratio.aoc2022
+package com.closeratio.aoc.app
 
-import com.closeratio.aoc2022.day2.RockPaperScissorEnum.*
-import com.closeratio.aoc2022.day2.RockPaperScissorEnum.Companion.decodePlayPair
+import com.closeratio.aoc.app.RockPaperScissorEnum.*
+import com.closeratio.aoc.app.RockPaperScissorEnum.Companion.decodePlayPair
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

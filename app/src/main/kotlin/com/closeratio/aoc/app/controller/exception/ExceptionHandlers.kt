@@ -1,6 +1,6 @@
-package com.closeratio.aoc2022.controller.exception
+package com.closeratio.aoc.app.controller.exception
 
-import com.closeratio.aoc2022.controller.RunnerController.*
+import com.closeratio.aoc.app.controller.RunnerController.*
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.ProblemDetail
 import org.springframework.web.bind.annotation.ControllerAdvice

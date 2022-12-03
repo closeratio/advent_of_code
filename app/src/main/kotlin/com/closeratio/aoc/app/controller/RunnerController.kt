@@ -1,7 +1,7 @@
-package com.closeratio.aoc2022.controller
+package com.closeratio.aoc.app.controller
 
-import com.closeratio.aoc2022.common.AocRunner
-import com.closeratio.aoc2022.controller.response.RunResponse
+import com.closeratio.aoc.app.controller.response.RunResponse
+import com.closeratio.aoc.common.AocRunner
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus.*
 import org.springframework.web.bind.annotation.PostMapping

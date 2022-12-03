@@ -10,6 +10,7 @@ plugins {
     kotlin("plugin.spring") version "1.7.21" apply false
 
     java
+    `java-test-fixtures`
 }
 
 subprojects {
@@ -19,6 +20,7 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "org.gradle.java")
+    apply(plugin = "org.gradle.java-test-fixtures")
 
     repositories {
         mavenCentral()
@@ -31,6 +33,7 @@ subprojects {
     dependencies {
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testFixturesImplementation("org.springframework.boot:spring-boot-starter-test")
 
         // Each year needs its own group because of a limitation/bug when IntelliJ imports the resolved gradle modules.
         if (parent?.project != rootProject) {
@@ -40,11 +43,13 @@ subprojects {
         // Everything depends on the common module, including the year-specific common modules
         if (project.name != "common" || parent?.project != rootProject) {
             implementation(project(":common"))
+            testImplementation(testFixtures(project(":common")))
         }
 
         // Every day within a year depends on that year's common module
         if (project.name.startsWith("day-")) {
             implementation(project(":${parent!!.name}:common"))
+            testImplementation(testFixtures(project(":${parent!!.name}:common")))
         }
 
         // The single "app" module depends on every day in every year.

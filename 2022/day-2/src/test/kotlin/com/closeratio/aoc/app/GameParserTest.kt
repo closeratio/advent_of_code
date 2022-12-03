@@ -1,15 +1,11 @@
-package com.closeratio.aoc2022
+package com.closeratio.aoc.app
 
-import com.closeratio.aoc2022.common.CommonConfig
-import com.closeratio.aoc2022.day2.GameParser
+import com.closeratio.aoc.common.AocTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest(
-    classes = [CommonConfig::class]
-)
+@AocTest
 class GameParserTest {
 
     @Autowired

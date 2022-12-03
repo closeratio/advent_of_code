@@ -1,8 +1,8 @@
-package com.closeratio.aoc2022.common
+package com.closeratio.aoc.common
 
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ComponentScan("com.closeratio.aoc2022")
+@ComponentScan("com.closeratio")
 class CommonConfig

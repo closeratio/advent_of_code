@@ -1,4 +1,4 @@
-package com.closeratio.aoc2022.day2
+package com.closeratio.aoc.app
 
 enum class GameResult(
     val points: Long

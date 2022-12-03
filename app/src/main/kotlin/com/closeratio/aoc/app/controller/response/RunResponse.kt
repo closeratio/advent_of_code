@@ -1,4 +1,4 @@
-package com.closeratio.aoc2022.controller.response
+package com.closeratio.aoc.app.controller.response
 
 data class RunResponse(
     val year: Int,

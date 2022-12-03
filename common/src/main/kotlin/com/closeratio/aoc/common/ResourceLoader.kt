@@ -1,4 +1,4 @@
-package com.closeratio.aoc2022.common
+package com.closeratio.aoc.common
 
 import org.springframework.stereotype.Component
 

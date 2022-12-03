@@ -1,4 +1,4 @@
-package com.closeratio.aoc2022
+package com.closeratio.aoc.app
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

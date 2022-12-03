@@ -1,6 +1,6 @@
-package com.closeratio.aoc2022.day2
+package com.closeratio.aoc.app
 
-import com.closeratio.aoc2022.day2.GameResult.*
+import com.closeratio.aoc.app.GameResult.*
 
 enum class RockPaperScissorEnum(
     private val points: Long,

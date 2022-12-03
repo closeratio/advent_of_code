@@ -1,15 +1,12 @@
 package com.closeratio.aoc2022.day3
 
-import com.closeratio.aoc2022.common.CommonConfig
-import com.closeratio.aoc2022.common.ResourceLoader
+import com.closeratio.aoc.common.AocTest
+import com.closeratio.aoc.common.ResourceLoader
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest(
-    classes = [CommonConfig::class]
-)
+@AocTest
 class BackpackTest {
 
     @Autowired
