@@ -10,7 +10,7 @@ class CalorieCounter(
 
     private fun convertToGroups(
         path: String
-    ): List<CalorieGroup> = resourceLoader.loadResource(path)
+    ): List<CalorieGroup> = resourceLoader.loadResourceText(path)
         .split("\n\n")
         .map { lines ->
             lines.split("\n").map(String::toLong).let(::CalorieGroup)
