@@ -9,11 +9,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @ControllerAdvice
 class ExceptionHandlers {
 
-    @ExceptionHandler(RunnerNotFoundException::class)
-    fun handleRunnerNotFoundException(exception: RunnerNotFoundException): ProblemDetail = ProblemDetail.forStatusAndDetail(
-        NOT_FOUND,
-        exception.message!!
-    )
+    @ExceptionHandler(RunnerYearNotFoundException::class)
+    fun handleRunnerNotFoundException(exception: RunnerYearNotFoundException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(
+            NOT_FOUND,
+            exception.message!!
+        )
+
+    @ExceptionHandler(RunnerDayNotFoundException::class)
+    fun handleRunnerNotFoundException(exception: RunnerDayNotFoundException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(
+            NOT_FOUND,
+            exception.message!!
+        )
 
     @ExceptionHandler(InvalidPartException::class)
     fun handleInvalidPartException(exception: InvalidPartException): ProblemDetail = ProblemDetail.forStatusAndDetail(

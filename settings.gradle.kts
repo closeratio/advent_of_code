@@ -1,6 +1,8 @@
-rootProject.name = "advent_of_code_2022"
+rootProject.name = "advent-of-code"
 
 include(listOf(
     "common",
     "app"
-) + (1..25).map { "day_$it" })
+) + (2015..2022).flatMap { year ->
+    (1..25).map { day -> "$year:day-$day" } + "$year:common"
+})
