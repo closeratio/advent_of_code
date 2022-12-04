@@ -8,12 +8,14 @@ class CalorieCounter(
     private val resourceLoader: ResourceLoader
 ) {
 
+    private val separator = System.lineSeparator()!!
+
     private fun convertToGroups(
         path: String
     ): List<CalorieGroup> = resourceLoader.loadResourceText(path)
-        .split("\n\n")
+        .split(separator + separator)
         .map { lines ->
-            lines.split("\n").map(String::toLong).let(::CalorieGroup)
+            lines.split(separator).map(String::toLong).let(::CalorieGroup)
         }
 
     fun largestCalorieGroup(

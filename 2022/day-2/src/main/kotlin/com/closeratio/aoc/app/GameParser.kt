@@ -9,14 +9,12 @@ class GameParser(
 ) {
 
     fun computePlayPairPoints(path: String): Long = resourceLoader
-        .loadResourceText(path)
-        .split("\n")
+        .loadResourceLines(path)
         .map(RockPaperScissorEnum.Companion::decodePlayPair)
         .sumOf { (first, second) -> second.computePoints(first) }
 
     fun computePlayResultPairPoints(path: String): Long = resourceLoader
-        .loadResourceText(path)
-        .split("\n")
+        .loadResourceLines(path)
         .map { line -> RockPaperScissorEnum.decodeChar(line.first()) to GameResult.decodeChar(line.last()) }
         .sumOf { (firstPlay, desiredResult) -> firstPlay.computePoints(desiredResult) }
 

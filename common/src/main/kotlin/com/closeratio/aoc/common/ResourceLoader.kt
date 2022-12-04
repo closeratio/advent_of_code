@@ -11,6 +11,6 @@ class ResourceLoader {
         .trim()
 
     fun loadResourceLines(path: String): List<String> = loadResourceText(path)
-        .split("\n")
+        .split(System.lineSeparator())
 
 }
