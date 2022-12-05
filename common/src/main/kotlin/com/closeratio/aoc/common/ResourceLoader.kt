@@ -5,12 +5,20 @@ import org.springframework.stereotype.Component
 @Component
 class ResourceLoader {
 
-    fun loadResourceText(path: String): String = javaClass
+    fun loadResourceText(
+        path: String,
+        trim: Boolean = true
+    ): String = javaClass
         .getResource(path)!!
         .readText()
-        .trim()
+        .let {
+            if (trim) it.trim() else it
+        }
 
-    fun loadResourceLines(path: String): List<String> = loadResourceText(path)
+    fun loadResourceLines(
+        path: String,
+        trim: Boolean = true
+    ): List<String> = loadResourceText(path, trim)
         .split(System.lineSeparator())
 
 }

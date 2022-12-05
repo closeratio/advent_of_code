@@ -1,4 +1,4 @@
-package com.closeratio.aoc.app
+package com.closeratio.aoc2022.day2
 
 import com.closeratio.aoc.common.AocTest
 import org.assertj.core.api.Assertions.assertThat
