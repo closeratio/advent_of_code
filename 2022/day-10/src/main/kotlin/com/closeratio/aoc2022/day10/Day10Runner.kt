@@ -16,6 +16,10 @@ class Day10Runner(
             .computeSignalStrengthSum()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> String = {
+        instructionParser
+            .parseInstructions("/2022_day_10_input.txt")
+            .generateCrtString()
+    }
 
 }

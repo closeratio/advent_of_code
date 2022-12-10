@@ -72,7 +72,11 @@ class RunnerController(
             val result = function()
             val endTime = LocalDateTime.now()
             val duration = Duration.between(startTime, endTime)
-            log.info("Result is: $result")
+            val padding = when (result) {
+                is String -> "\n"
+                else -> ""
+            }
+            log.info("Result is: $padding$result")
             log.info("Took ${duration.toMillis()}ms")
             RunResponse(
                 derivedYear,
