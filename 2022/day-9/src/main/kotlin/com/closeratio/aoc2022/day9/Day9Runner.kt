@@ -8,7 +8,7 @@ class Day9Runner(
     private val motionProcessor: MotionProcessor
 ) : Aoc2022Runner() {
 
-    override fun getDay(): Int = 8
+    override fun getDay(): Int = 9
 
     override fun part1Function(): () -> Int = {
         motionProcessor.computeTailPositionCount("/2022_day_9_input.txt")
