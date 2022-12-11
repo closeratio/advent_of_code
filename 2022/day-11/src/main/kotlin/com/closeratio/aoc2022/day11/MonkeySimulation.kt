@@ -3,7 +3,8 @@ package com.closeratio.aoc2022.day11
 import com.closeratio.aoc2022.day11.Monkey.Id
 
 data class MonkeySimulation(
-    val monkeys: Map<Id, Monkey>
+    val monkeys: Map<Id, Monkey>,
+    private val decreaseWorryLevel: Boolean = true
 ) {
 
     private fun inspectItems(monkey: Monkey) {
@@ -13,7 +14,7 @@ data class MonkeySimulation(
         val inspectedItems = uninspectedItems
             .map(monkey::inspect)
             .map {
-                Item(it.worryLevel / 3)
+                if (decreaseWorryLevel) Item(it.worryLevel / 3L) else it
             }
             .map {
                 it to monkey.throwTarget(it)
@@ -32,6 +33,9 @@ data class MonkeySimulation(
         repeat(roundCount) {
             keys.forEach {
                 inspectItems(monkeys.getValue(it))
+            }
+            if (it == 999) {
+                println("done")
             }
         }
 

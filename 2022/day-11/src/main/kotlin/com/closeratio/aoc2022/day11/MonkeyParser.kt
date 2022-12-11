@@ -63,9 +63,15 @@ class MonkeyParser(
         }
     }
 
-    fun parseInput(path: String): MonkeySimulation = resourceLoader
+    fun parseInput(
+        path: String,
+        decreaseWorryLevel: Boolean = true
+    ): MonkeySimulation = resourceLoader
         .loadResourceLines(path)
         .chunked(7)
+        .map {
+            it.take(6)
+        }
         .map { lines ->
             val id: Id = lines[0].split(" ")[1].dropLast(1).toInt().let(Monkey::Id)
             val items: MutableList<Item> = lines[1].split(":")[1]
@@ -84,7 +90,7 @@ class MonkeyParser(
             )
         }
         .let {
-            MonkeySimulation(it.associateBy(Monkey::id))
+            MonkeySimulation(it.associateBy(Monkey::id), decreaseWorryLevel)
         }
 
 }

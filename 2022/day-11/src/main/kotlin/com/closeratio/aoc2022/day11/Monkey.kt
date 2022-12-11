@@ -33,4 +33,9 @@ class Monkey(
         return id.hashCode()
     }
 
+    override fun toString(): String {
+        return "Monkey(id=$id, inspectionCount=$inspectionCount)"
+    }
+
+
 }
