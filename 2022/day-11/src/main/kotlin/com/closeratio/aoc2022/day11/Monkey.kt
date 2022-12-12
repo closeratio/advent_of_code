@@ -3,6 +3,7 @@ package com.closeratio.aoc2022.day11
 class Monkey(
     val id: Id,
     val items: MutableList<Item>,
+    val divisor: Long,
     private val worryModifier: (Item) -> Item,
     private val throwFunction: (Item) -> Id
 ) {

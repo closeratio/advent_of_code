@@ -7,6 +7,11 @@ data class MonkeySimulation(
     private val decreaseWorryLevel: Boolean = true
 ) {
 
+    private val commonMultiple = monkeys
+        .values
+        .map(Monkey::divisor)
+        .reduce(Long::times)
+
     private fun inspectItems(monkey: Monkey) {
         val uninspectedItems = listOf(*monkey.items.toTypedArray())
         monkey.items.clear()
@@ -14,14 +19,15 @@ data class MonkeySimulation(
         val inspectedItems = uninspectedItems
             .map(monkey::inspect)
             .map {
-                if (decreaseWorryLevel) Item(it.worryLevel / 3L) else it
-            }
-            .map {
-                it to monkey.throwTarget(it)
+                if (decreaseWorryLevel) {
+                    Item(it.worryLevel / 3L)
+                } else {
+                    Item(it.worryLevel % commonMultiple)
+                }
             }
 
-        inspectedItems.forEach { (item, throwTarget) ->
-            monkeys.getValue(throwTarget).items += item
+        inspectedItems.forEach { item ->
+            monkeys.getValue(monkey.throwTarget(item)).items += item
         }
     }
 
@@ -31,11 +37,8 @@ data class MonkeySimulation(
             .sortedBy(Id::value)
 
         repeat(roundCount) {
-            keys.forEach {
-                inspectItems(monkeys.getValue(it))
-            }
-            if (it == 999) {
-                println("done")
+            keys.forEach { id ->
+                inspectItems(monkeys.getValue(id))
             }
         }
 

@@ -16,6 +16,10 @@ class Day11Runner(
             .calculateMonkeyBusiness(20)
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        monkeyParser
+            .parseInput("/2022_day_11_input.txt", false)
+            .calculateMonkeyBusiness(10_000)
+    }
 
 }

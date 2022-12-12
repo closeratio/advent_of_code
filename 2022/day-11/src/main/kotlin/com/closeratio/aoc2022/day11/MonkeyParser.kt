@@ -38,7 +38,7 @@ class MonkeyParser(
         }
     }
 
-    private fun parseThrowFunction(lines: List<String>): (Item) -> Id {
+    private fun parseThrowFunction(lines: List<String>): Pair<(Item) -> Id, Long> {
         val (testLine, trueLine, falseLine) = lines
 
         val divisor = testLine
@@ -58,9 +58,9 @@ class MonkeyParser(
             .toInt()
             .let(::Id)
 
-        return { item ->
+        return { item: Item ->
             if ((item.worryLevel % divisor) == 0L) trueMonkeyId else falseMonkeyId
-        }
+        } to divisor
     }
 
     fun parseInput(
@@ -82,11 +82,14 @@ class MonkeyParser(
                 .map(::Item)
                 .toMutableList()
 
+            val (throwFunction, divisor) = parseThrowFunction(lines.takeLast(3))
+
             Monkey(
                 id,
                 items,
+                divisor,
                 parseWorryModifier(lines[2]),
-                parseThrowFunction(lines.takeLast(3))
+                throwFunction
             )
         }
         .let {
