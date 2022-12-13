@@ -48,9 +48,38 @@ class PacketPairParser(
         parsePacket(secondLine)
     )
 
-    fun parse(path: String): List<PacketPair> = resourceLoader
+    private fun parse(path: String): List<PacketPair> = resourceLoader
         .loadResourceLines(path)
         .chunked(3)
         .map { (first, second) -> parsePair(first, second) }
+
+    fun sumCorrectOrderPairs(path: String): Int = parse(path)
+        .mapIndexedNotNull { index, pair ->
+            if (pair.inOrder()) index + 1 else null
+        }
+        .sum()
+
+    fun computeDecoderKey(path: String): Int {
+        val firstDividerPacket = parsePacket("[[2]]")
+        val secondDividerPacket = parsePacket("[[6]]")
+
+        return resourceLoader
+            .loadResourceLines(path)
+            .filter(String::isNotEmpty)
+            .map(::parsePacket)
+            .let {
+                it + listOf(firstDividerPacket, secondDividerPacket)
+            }
+            .sorted()
+            .mapIndexedNotNull { index, packet ->
+                if (packet == firstDividerPacket || packet == secondDividerPacket) {
+                    index + 1
+                } else {
+                    null
+                }
+            }
+            .reduce(Int::times)
+
+    }
 
 }

@@ -11,14 +11,11 @@ class Day13Runner(
     override fun getDay(): Int = 13
 
     override fun part1Function(): () -> Int = {
-        packetPairParser
-            .parse("/2022_day_13_input.txt")
-            .mapIndexedNotNull { index, pair ->
-                if (pair.inOrder()) index + 1 else null
-            }
-            .sum()
+        packetPairParser.sumCorrectOrderPairs("/2022_day_13_input.txt")
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Int = {
+        packetPairParser.computeDecoderKey("/2022_day_13_input.txt")
+    }
 
 }

@@ -12,14 +12,17 @@ class PacketPairParserTest {
     private lateinit var packetPairParser: PacketPairParser
 
     @Test
-    fun parse_inOrder_returnsExpectedValues() {
-        val result = packetPairParser.parse("/test_input.txt")
-            .mapIndexedNotNull { index, pair ->
-                if (pair.inOrder()) index + 1 else null
-            }
-            .sum()
+    fun sumCorrectOrderPairs_givenTestInput_returnsExpectedValues() {
+        val result = packetPairParser.sumCorrectOrderPairs("/test_input.txt")
 
         assertThat(result).isEqualTo(13)
+    }
+
+    @Test
+    fun computeDecoderKey_givenTestInput_returnsExpectedValues() {
+        val result = packetPairParser.computeDecoderKey("/test_input.txt")
+
+        assertThat(result).isEqualTo(140)
     }
 
 }
