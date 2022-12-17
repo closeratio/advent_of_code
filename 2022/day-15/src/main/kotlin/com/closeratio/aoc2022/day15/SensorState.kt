@@ -13,22 +13,27 @@ data class SensorState(
         val beaconAndSensorPositions = sensors.map { it.position }.toSet() + beacons.map { it.position }
 
         val emptyPositions = sensors
-            .flatMap { sensor ->
+            // Pair up the sensors with their corresponding beacon
+            .map { sensor ->
+                sensor to beacons.minBy { sensor.position.manhattanDistance(it.position) }
+            }
+            // Filter out any sensors for which the yCoord isn't within their "range"
+            .filter { (sensor, beacon) ->
+                val candidatePosition = Vec2(sensor.position.x, yCoord)
+                candidatePosition.manhattanDistance(sensor.position) < sensor.position.manhattanDistance(beacon.position)
+            }
+            // Get all the X values which are in range of the sensor for the give yCoord
+            .flatMap { (sensor, beacon) ->
                 val sensorPos = sensor.position
-                val beacon = beacons.minBy { sensorPos.manhattanDistance(it.position) }
                 val distance = sensorPos.manhattanDistance(beacon.position)
 
-                ((sensorPos.y - distance)..(sensorPos.y + distance))
-                    .flatMap { y ->
-                        ((sensorPos.x - distance)..(sensorPos.x + distance)).map { x ->
-                            Vec2(x, y)
-                        }
-                    }
-                    .filter { it.manhattanDistance(sensorPos) <= distance }
+                ((sensorPos.x - distance)..(sensorPos.x + distance)).map { x ->
+                    Vec2(x, yCoord)
+                }.filter { it.manhattanDistance(sensorPos) <= distance }
             }
+            // Consolidate them and filter out any positions which are already taken by sensors or beacons
             .toSet()
             .filter { it !in beaconAndSensorPositions }
-            .filter { it.y == yCoord }
 
         return emptyPositions.size
     }
