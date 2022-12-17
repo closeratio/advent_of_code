@@ -1,6 +1,7 @@
 package com.closeratio.aoc.common.math
 
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 data class Vec2(
     val x: Long,
@@ -38,6 +39,21 @@ data class Vec2(
         val adjacentVecs: Set<Vec2> = immediatelyAdjacent() + (if (includeDiagonals) diagonals() else emptySet())
 
         return other in adjacentVecs
+    }
+
+    fun lineTo(other: Vec2): Set<Vec2> {
+        val xDiff = other.x - x
+        val yDiff = other.y - y
+
+        if (xDiff.absoluteValue != 0L && yDiff.absoluteValue != 0L) {
+            throw IllegalArgumentException("Line must be horizontal or vertical")
+        }
+
+        return if (xDiff == 0L) {
+            (if (yDiff > 0) y..other.y else other.y..y).map { currY -> Vec2(x, currY) }.toSet()
+        } else {
+            (if (xDiff > 0) x..other.x else other.x..x).map { currX -> Vec2(currX, y) }.toSet()
+        }
     }
 
 }
