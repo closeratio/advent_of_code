@@ -19,4 +19,12 @@ class SensorStateParserTest {
         assertThat(result).isEqualTo(26)
     }
 
+    @Test
+    fun parseSensorState_invalidBeaconPositionsRealData_returnsExpectedResult() {
+        val state = beaconStateParser.parseSensorState("/2022_day_15_input.txt")
+        val result = state.invalidBeaconPositions(2_000_000)
+
+        assertThat(result).isEqualTo(5108096)
+    }
+
 }
