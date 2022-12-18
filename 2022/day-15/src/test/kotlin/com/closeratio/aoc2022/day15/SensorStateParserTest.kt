@@ -27,4 +27,12 @@ class SensorStateParserTest {
         assertThat(result).isEqualTo(5108096)
     }
 
+    @Test
+    fun parseSensorState_computeTuningFrequency_returnsExpectedResult() {
+        val state = beaconStateParser.parseSensorState("/test_input.txt")
+        val result = state.computeTuningFrequency(20)
+
+        assertThat(result).isEqualTo(56_000_011)
+    }
+
 }

@@ -16,6 +16,10 @@ class Day15Runner(
             .invalidBeaconPositions(2_000_000)
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        sensorStateParser
+            .parseSensorState("/2022_day_15_input.txt")
+            .computeTuningFrequency(4_000_000)
+    }
 
 }

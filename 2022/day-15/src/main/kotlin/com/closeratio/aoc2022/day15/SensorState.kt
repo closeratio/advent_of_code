@@ -60,4 +60,17 @@ data class SensorState(
         return emptyPositions.toInt() - beaconAndSensorPositionCount
     }
 
+    fun computeTuningFrequency(
+        maxXY: Long
+    ): Long {
+        val (ranges, y) = (0..maxXY)
+            .asSequence()
+            .map { findSensorRangesForYCoord(it) to it }
+            .first { (ranges, _) -> ranges.size > 1 }
+
+        val x = ranges.first().last + 1
+
+        return x * 4_000_000 + y
+    }
+
 }
