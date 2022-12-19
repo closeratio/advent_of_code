@@ -6,30 +6,37 @@ class WorldStateSimulation(
     private val initialState: WorldState
 ) {
 
+    private val routeMap = RouteMap.from(initialState.valveMap)
+
     fun computeMaxPossiblePressure(endMinute: Int): Long {
         val comparator = Comparator
-            .comparing { ws: WorldState -> ws.totalPressureYield(endMinute) }
+            .comparing(WorldState::hypotheticalPressureYield)
             .reversed()
 
         val stateQueue = PriorityQueue(comparator)
         stateQueue.add(initialState)
 
-        val examinedStates = mutableSetOf<WorldState>()
+        val bestStateCombinationMap = mutableMapOf<WorldState, Long>()
 
-        while (stateQueue.isNotEmpty() && !stateQueue.first().isInEndState()) {
+        while (stateQueue.isNotEmpty()) {
             val currState = stateQueue.remove()
-            examinedStates += currState
 
-            stateQueue.addAll(currState.nextStates(endMinute).filter { it !in examinedStates })
+            if (currState.hypotheticalPressureYield > (bestStateCombinationMap[currState] ?: -1)) {
+                bestStateCombinationMap[currState] = currState.hypotheticalPressureYield
+            } else {
+                continue
+            }
+
+            if (currState.minuteCounter < endMinute) {
+                stateQueue.addAll(currState.nextStates(routeMap).filter { it.minuteCounter <= endMinute })
+            }
         }
 
-        if (stateQueue.isEmpty()) {
-            throw IllegalStateException("Unable to compute strategy for releasing valves")
-        }
+        val bestState = bestStateCombinationMap
+            .keys
+            .maxBy { it.actualPressureYield }
 
-        return stateQueue
-            .first()
-            .totalPressureYield(endMinute)
+        return bestState.actualPressureYield
     }
 
 }

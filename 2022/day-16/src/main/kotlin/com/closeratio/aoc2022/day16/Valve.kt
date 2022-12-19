@@ -11,19 +11,31 @@ data class Valve(
     val connectedValveIds: Set<String>
 ) {
 
-    fun totalPressureYield(
+    enum class State {
+        CLOSED,
+        OPEN
+    }
+
+    fun hypotheticalPressureYield(
         currentMinute: Int,
         endMinute: Int
     ): Long = when (state) {
         // If the valve is closed, then it's a hypothetical yield which would have to start from the next minute.
         // Otherwise, the valve is open, and we can work out the real pressure yield up to the end minute.
         CLOSED -> (endMinute - (currentMinute + 1)) * flowRate
+        else -> actualPressureYield(endMinute)
+    }
+
+    fun actualPressureYield(
+        endMinute: Int
+    ): Long = when (state) {
+        CLOSED -> 0L
         else -> (endMinute - openMinute!!) * flowRate
     }
 
     fun open(minute: Int): Valve {
         if (state == OPEN) {
-            throw IllegalStateException("Valve $id is already open at minute $minute. It was opened at  minute $openMinute")
+            throw IllegalStateException("Valve $id is already open at minute $minute. It was opened at minute $openMinute")
         }
 
         return copy(
@@ -32,9 +44,22 @@ data class Valve(
         )
     }
 
-    enum class State {
-        CLOSED,
-        OPEN
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Valve
+
+        if (id != other.id) return false
+        if (state != other.state) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + state.hashCode()
+        return result
     }
 
 }

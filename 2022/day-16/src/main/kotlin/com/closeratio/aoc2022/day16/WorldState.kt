@@ -9,48 +9,40 @@ class WorldState(
     val minuteCounter: Int
 ) {
 
-    fun totalPressureYield(
-        endMinute: Int
-    ): Long = valveMap
+    val hypotheticalPressureYield = valveMap
         .values
-        .sumOf { it.totalPressureYield(minuteCounter, endMinute) }
+        .sumOf { it.hypotheticalPressureYield(minuteCounter, 30) }
 
-    fun nextStates(
-        endMinute: Int
-    ): List<WorldState> {
+    val actualPressureYield = valveMap
+        .values
+        .sumOf { it.actualPressureYield(30) }
+
+    private fun availableDestinations(): Set<Valve> = valveMap
+        .values
+        .filter { it.id != currentPosition }
+        .filter { it.flowRate > 0 && it.state == CLOSED }
+        .toSet()
+
+    fun nextStates(routeMap: RouteMap): List<WorldState> {
+        val destinations = availableDestinations()
+
         if (isInEndState()) {
             return emptyList()
         }
 
-        val currValve = valveMap.getValue(currentPosition)
+        return destinations
+            .map { valve ->
+                val routeLength = routeMap.routeLength(currentPosition, valve.id)
 
-        val currValveOpenedState = listOfNotNull(
-            when {
-                currValve.state == CLOSED && currValve.flowRate > 0 -> WorldState(
-                    // Because the valveMap is keyed by ID, appending this new map to it will overwrite the "old" valve
-                    valveMap + mapOf(currentPosition to currValve.open(minuteCounter)),
-                    currentPosition,
-                    minuteCounter + 1
-                )
-
-                else -> null
-            }
-        )
-
-        val states = currValveOpenedState + currValve
-            .connectedValveIds
-            .map { id ->
                 WorldState(
-                    valveMap,
-                    id,
-                    minuteCounter + 1
+                    valveMap + mapOf(valve.id to valve.open(minuteCounter + routeLength)),
+                    valve.id,
+                    minuteCounter + routeLength + 1
                 )
             }
-
-        return states.filter { it.minuteCounter <= endMinute }
     }
 
-    fun isInEndState(): Boolean = valveMap
+    private fun isInEndState(): Boolean = valveMap
         .values
         .filter { it.flowRate > 0 }
         .all { it.state == OPEN }

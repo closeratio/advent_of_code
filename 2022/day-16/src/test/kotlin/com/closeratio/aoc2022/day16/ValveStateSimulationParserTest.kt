@@ -19,4 +19,12 @@ class ValveStateSimulationParserTest {
         assertThat(result).isEqualTo(1651)
     }
 
+    @Test
+    fun parse_computeMaxPossiblePressureRealData_returnsExpectedValue() {
+        val sim = parser.parse("/2022_day_16_input.txt")
+        val result = sim.computeMaxPossiblePressure(30)
+
+        assertThat(result).isGreaterThan(1552)
+    }
+
 }
