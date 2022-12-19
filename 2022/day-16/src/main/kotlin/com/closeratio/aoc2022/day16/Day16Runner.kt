@@ -13,9 +13,13 @@ class Day16Runner(
     override fun part1Function(): () -> Long = {
         parser
             .parse("/2022_day_16_input.txt")
-            .computeMaxPossiblePressure(30)
+            .computeMaxPossiblePressureSolo()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        parser
+            .parse("/2022_day_16_input.txt")
+            .computeMaxPossiblePressureWithElephantFriend()
+    }
 
 }

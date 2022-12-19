@@ -6,20 +6,22 @@ import com.closeratio.aoc2022.day16.Valve.State.OPEN
 class WorldState(
     val valveMap: Map<String, Valve>,
     val currentPosition: String,
-    val minuteCounter: Int
+    val minuteCounter: Int,
+    val endMinute: Int
 ) {
 
     val hypotheticalPressureYield = valveMap
         .values
-        .sumOf { it.hypotheticalPressureYield(minuteCounter, 30) }
+        .sumOf { it.hypotheticalPressureYield(minuteCounter, endMinute) }
 
     val actualPressureYield = valveMap
         .values
-        .sumOf { it.actualPressureYield(30) }
+        .sumOf { it.actualPressureYield(endMinute) }
 
     private fun availableDestinations(): Set<Valve> = valveMap
         .values
         .filter { it.id != currentPosition }
+        .filter(Valve::isCandidateValve)
         .filter { it.flowRate > 0 && it.state == CLOSED }
         .toSet()
 
@@ -37,7 +39,8 @@ class WorldState(
                 WorldState(
                     valveMap + mapOf(valve.id to valve.open(minuteCounter + routeLength)),
                     valve.id,
-                    minuteCounter + routeLength + 1
+                    minuteCounter + routeLength + 1,
+                    endMinute
                 )
             }
     }
@@ -45,6 +48,7 @@ class WorldState(
     private fun isInEndState(): Boolean = valveMap
         .values
         .filter { it.flowRate > 0 }
+        .filter(Valve::isCandidateValve)
         .all { it.state == OPEN }
 
     override fun equals(other: Any?): Boolean {

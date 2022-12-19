@@ -8,7 +8,8 @@ data class Valve(
     val flowRate: Long,
     val state: State,
     val openMinute: Int?, // Only applicable if the valve is open,
-    val connectedValveIds: Set<String>
+    val connectedValveIds: Set<String>,
+    val isCandidateValve: Boolean = true
 ) {
 
     enum class State {

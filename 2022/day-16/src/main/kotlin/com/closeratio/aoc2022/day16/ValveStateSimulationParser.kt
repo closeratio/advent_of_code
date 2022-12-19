@@ -2,11 +2,13 @@ package com.closeratio.aoc2022.day16
 
 import com.closeratio.aoc.common.ResourceLoader
 import com.closeratio.aoc2022.day16.Valve.State.CLOSED
+import org.springframework.core.task.AsyncTaskExecutor
 import org.springframework.stereotype.Component
 
 @Component
 class ValveStateSimulationParser(
-    private val resourceLoader: ResourceLoader
+    private val resourceLoader: ResourceLoader,
+    private val executor: AsyncTaskExecutor
 ) {
 
     fun parseValveLine(line: String): Valve {
@@ -35,8 +37,10 @@ class ValveStateSimulationParser(
                 WorldState(
                     valves.associateBy(Valve::id),
                     "AA",
-                    1
-                )
+                    1,
+                    30
+                ),
+                executor
             )
         }
 
