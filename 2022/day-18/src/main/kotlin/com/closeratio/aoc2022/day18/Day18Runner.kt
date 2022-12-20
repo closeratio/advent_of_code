@@ -16,6 +16,10 @@ class Day18Runner(
             .computeSurfaceArea()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Int = {
+        parser
+            .parseLava("/2022_day_18_input.txt")
+            .computeExteriorSurfaceArea()
+    }
 
 }

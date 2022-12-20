@@ -19,4 +19,12 @@ class LavaParserTest {
         assertThat(result).isEqualTo(64)
     }
 
+    @Test
+    fun parseLava_computeExteriorSurfaceArea_returnsExpectedValue() {
+        val lava = lavaParser.parseLava("/test_input.txt")
+        val result = lava.computeExteriorSurfaceArea()
+
+        assertThat(result).isEqualTo(58)
+    }
+
 }
