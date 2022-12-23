@@ -10,12 +10,16 @@ class Day17Runner(
 
     override fun getDay(): Int = 17
 
-    override fun part1Function(): () -> Int = {
+    override fun part1Function(): () -> Long = {
         parser
             .parse("/2022_day17_input.txt")
             .simulateUntilTotalRocksFallen(2022)
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        parser
+            .parse("/2022_day17_input.txt")
+            .simulateUntilTotalRocksFallen(1_000_000_000_000L)
+    }
 
 }

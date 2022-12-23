@@ -71,14 +71,16 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+
+        maxHeapSize = "4g"
     }
 
     if (project.name != "app") {
-        tasks.withType<BootJar>() {
+        tasks.withType<BootJar> {
             enabled = false
         }
 
-        tasks.withType<Jar>() {
+        tasks.withType<Jar> {
             enabled = true
         }
     }
