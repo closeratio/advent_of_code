@@ -15,7 +15,7 @@ class RobotSimulationParserTest {
     fun parse_computeQualityLevelSum_returnsExpectedValue() {
         val result = robotSimulationParser
             .parse("/test_input.txt")
-            .computeQualityLevelSum()
+            .computeQualityLevelSum(24)
 
         assertThat(result).isEqualTo(33)
     }

@@ -8,8 +8,14 @@ abstract class Robot(
     val obsidianCost: Long
 ) {
 
-    fun canAfford(inventory: Inventory): Boolean = inventory.oreCount >= oreCost
-            && inventory.clayCount >= clayCost
-            && inventory.obsidianCount >= obsidianCost
+    abstract fun addRobot(inventory: Inventory): Inventory
+
+    fun build(inventory: Inventory): Inventory = inventory
+        .copy(
+            oreCount = inventory.oreCount - oreCost,
+            clayCount = inventory.clayCount - clayCost,
+            obsidianCount = inventory.obsidianCount - obsidianCost
+        )
+        .let(::addRobot)
 
 }

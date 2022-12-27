@@ -4,9 +4,34 @@ class RobotSimulation(
     private val blueprints: List<Blueprint>
 ) {
 
-    fun computeQualityLavel(blueprint: Blueprint): Long = 0L
+    private fun computeQualityLevel(
+        maxMinutes: Long,
+        blueprint: Blueprint
+    ): Long {
+        val exploredStates = mutableSetOf<Inventory>()
+        val stateQueue = mutableSetOf(
+            Inventory(0, 0, 0, 0, 0, 1, 0, 0, 0)
+        )
 
-    fun computeQualityLevelSum(): Long = blueprints.sumOf(::computeQualityLavel)
+        while (stateQueue.isNotEmpty()) {
+            val state = stateQueue.first()
+            stateQueue.remove(state)
+            exploredStates += state
+            stateQueue.addAll(state.nextStates(maxMinutes, blueprint)
+                .filter { it !in exploredStates }
+                .filter { it !in stateQueue }
+            )
+        }
+
+        return exploredStates
+            .filter { it.minute == maxMinutes }
+            .maxOf(Inventory::geodeCount)
+            .let { blueprint.id * it }
+    }
+
+    fun computeQualityLevelSum(
+        maxMinutes: Long
+    ): Long = blueprints.sumOf { computeQualityLevel(maxMinutes, it) }
 
 }
 

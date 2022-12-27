@@ -11,12 +11,5 @@ class Blueprint(
     val clayRobot: ClayRobot,
     val obsidianRobot: ObsidianRobot,
     val geodeRobot: GeodeRobot
-) {
-
-    fun canAffordAll(inventory: Inventory): Boolean = oreRobot.canAfford(inventory)
-            && clayRobot.canAfford(inventory)
-            && obsidianRobot.canAfford(inventory)
-            && geodeRobot.canAfford(inventory)
-
-}
+)
 
