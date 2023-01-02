@@ -20,4 +20,13 @@ class MonkeyTreeParserTest {
         assertThat(result).isEqualTo(152)
     }
 
+    @Test
+    fun parse_computeRequiredHumanNumber_returnsExpectedValue() {
+        val result = parser
+            .parse("/test_input.txt")
+            .computeRequiredHumanNumber()
+
+        assertThat(result).isEqualTo(301)
+    }
+
 }

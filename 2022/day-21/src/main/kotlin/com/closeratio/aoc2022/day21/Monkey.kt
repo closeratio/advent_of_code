@@ -9,6 +9,18 @@ abstract class Monkey(
     )
 
     abstract fun computeNumber(monkeyMap: Map<Id, Monkey>): Long
+
+    abstract fun computeRequiredHumanNumber(
+        monkeyMap: Map<Id, Monkey>,
+        routeToHuman: Set<Id>,
+        requiredOutputNumber: Long
+    ): Long
+
+    abstract fun routeToMonkey(
+        monkeyMap: Map<Id, Monkey>,
+        id: Id
+    ): Set<Id>
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

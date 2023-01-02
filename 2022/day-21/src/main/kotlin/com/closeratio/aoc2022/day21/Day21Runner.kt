@@ -16,6 +16,10 @@ class Day21Runner(
             .computeRootNumber()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        parser
+            .parse("/2022_day_21_input.txt")
+            .computeRequiredHumanNumber()
+    }
 
 }
