@@ -1,7 +1,7 @@
 package com.closeratio.aoc2022.day20
 
-data class ListItem(
-    val value: Int
+class ListItem(
+    val value: Long
 ) {
 
     override fun toString() = value.toString()

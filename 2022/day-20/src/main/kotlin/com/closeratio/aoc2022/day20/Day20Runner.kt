@@ -10,7 +10,7 @@ class Day20Runner(
 
     override fun getDay(): Int = 20
 
-    override fun part1Function(): () -> Int = {
+    override fun part1Function(): () -> Long = {
         parser
             .parse("/2022_day_20_input.txt")
             .mixAndSum()

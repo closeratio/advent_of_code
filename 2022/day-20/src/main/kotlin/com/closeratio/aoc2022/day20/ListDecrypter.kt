@@ -7,43 +7,23 @@ class ListDecrypter(
 ) {
 
     fun getAt(list: List<ListItem>, index: Int): ListItem =
-        list[(list.indexOf(ListItem(0)) + index) % list.size]
+        list[(list.indexOf(list.find { it.value == 0L }) + index) % list.size]
 
-    fun mix(): List<List<ListItem>> {
+    fun mix(): List<ListItem> {
         val modifiedList = LinkedList(items)
-        val listHistory = mutableListOf(
-            items
-        )
-//        println(modifiedList)
 
         items.forEach { item ->
-
-            val moveRight = item.value >= 0
             val oldIndex = modifiedList.indexOf(item)
-
-            val newIndex = if (moveRight) {
-                val wrapCount = (oldIndex + item.value) / items.size
-                (oldIndex + item.value + wrapCount) % modifiedList.size
-            } else {
-                val wrapCount = (oldIndex + item.value) / items.size - 1
-                val wraps = (oldIndex + item.value) <= 0
-                val offset = (oldIndex + item.value + if (wraps) wrapCount else 0) % modifiedList.size
-                (modifiedList.size + offset)
-            }
-
             modifiedList.removeAt(oldIndex)
+
+            val newIndex = (oldIndex + item.value).mod(modifiedList.size)
             modifiedList.add(newIndex, item)
-
-            listHistory.add(LinkedList(modifiedList))
-
-//            println(modifiedList)
         }
 
-        return listHistory
+        return modifiedList
     }
 
-    fun mixAndSum(): Int = mix()
-        .last()
+    fun mixAndSum(): Long = mix()
         .let {
             listOf(
                 getAt(it, 1000),

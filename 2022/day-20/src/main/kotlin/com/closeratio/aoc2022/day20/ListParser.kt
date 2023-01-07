@@ -10,7 +10,7 @@ class ListParser(
 
     fun parse(path: String): ListDecrypter = resourceLoader
         .loadResourceLines(path)
-        .map(String::toInt)
+        .map(String::toLong)
         .map(::ListItem)
         .let(::ListDecrypter)
 

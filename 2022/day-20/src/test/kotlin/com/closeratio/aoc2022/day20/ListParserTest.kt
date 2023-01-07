@@ -15,29 +15,13 @@ class ListParserTest {
     fun parse_mixAndSum_returnsExpectedValue() {
         val decrypter = listParser.parse("/test_input.txt")
 
-        val listHistory = decrypter.mix()
-        listOf(
-            listOf(1, 2, -3, 3, -2, 0, 4),
-            listOf(2, 1, -3, 3, -2, 0, 4),
-            listOf(1, -3, 2, 3, -2, 0, 4),
-            listOf(1, 2, 3, -2, -3, 0, 4),
-            listOf(1, 2, -2, -3, 0, 3, 4),
-            listOf(1, 2, -3, 0, 3, 4, -2),
-            listOf(1, 2, -3, 0, 3, 4, -2),
-            listOf(1, 2, -3, 4, 0, 3, -2)
-        ).map { list -> list.map(::ListItem) }.forEachIndexed { index, list ->
-            assertThat(listHistory[index]).isEqualTo(list)
-        }
-
-        val mixed = listHistory.last()
+        val mixed = decrypter.mix()
         val items = listOf(
-            decrypter.getAt(mixed, 1000),
-            decrypter.getAt(mixed, 2000),
-            decrypter.getAt(mixed, 3000)
+            decrypter.getAt(mixed, 1000).value,
+            decrypter.getAt(mixed, 2000).value,
+            decrypter.getAt(mixed, 3000).value
         )
-        assertThat(items).isEqualTo(
-            listOf(4, -3, 2).map(::ListItem)
-        )
+        assertThat(items).isEqualTo(listOf(4L, -3L, 2L))
 
         val result = decrypter.mixAndSum()
 
@@ -49,7 +33,7 @@ class ListParserTest {
         val decrypter = listParser.parse("/2022_day_20_input.txt")
         val result = decrypter.mixAndSum()
 
-        assertThat(result).isGreaterThan(2396)
+        assertThat(result).isEqualTo(7153)
     }
 
 }
