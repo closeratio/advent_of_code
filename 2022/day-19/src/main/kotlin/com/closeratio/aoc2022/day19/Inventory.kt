@@ -16,15 +16,6 @@ data class Inventory(
     val geodeRobots: Long
 ) {
 
-    private fun canAffordAll(blueprint: Blueprint): Boolean = canAfford(blueprint.oreRobot)
-            && canAfford(blueprint.clayRobot)
-            && canAfford(blueprint.obsidianRobot)
-            && canAfford(blueprint.geodeRobot)
-
-    private fun canAfford(robot: Robot): Boolean = oreCount >= robot.oreCost
-            && clayCount >= robot.clayCost
-            && obsidianCount >= robot.obsidianCost
-
     fun nextStates(
         maxMinutes: Long,
         blueprint: Blueprint
@@ -33,21 +24,29 @@ data class Inventory(
             return emptyList()
         }
 
-        val intermediateState = copy(
-            minute = minute + 1,
-            oreCount = oreCount + oreRobots,
-            clayCount = clayCount + clayRobots,
-            obsidianCount = obsidianCount + obsidianRobots,
-            geodeCount = geodeCount + geodeRobots
-        )
-
         return listOfNotNull(
-            if (!canAffordAll(blueprint)) intermediateState else null,
-            if (canAfford(blueprint.oreRobot)) blueprint.oreRobot.build(intermediateState) else null,
-            if (canAfford(blueprint.clayRobot)) blueprint.clayRobot.build(intermediateState) else null,
-            if (canAfford(blueprint.obsidianRobot)) blueprint.obsidianRobot.build(intermediateState) else null,
-            if (canAfford(blueprint.geodeRobot)) blueprint.geodeRobot.build(intermediateState) else null
-        )
+            computeState(blueprint.clayRobot),
+            computeState(blueprint.oreRobot),
+            computeState(blueprint.obsidianRobot),
+            computeState(blueprint.geodeRobot)
+        ).filter { it.minute < maxMinutes }
+    }
+
+    private fun computeState(
+        robot: Robot
+    ): Inventory? {
+        val requiredMinutes = robot.requiredMinutesToBuild(this) ?: return null
+
+        val newMinutes = minute + requiredMinutes
+
+        return copy(
+            minute = newMinutes,
+            oreCount = oreCount + (oreRobots * requiredMinutes),
+            clayCount = clayCount + (clayRobots * requiredMinutes),
+            obsidianCount = obsidianCount + (obsidianRobots * requiredMinutes),
+            geodeCount = geodeCount + (geodeRobots * requiredMinutes)
+        ).let(robot::build)
+
     }
 
 }
