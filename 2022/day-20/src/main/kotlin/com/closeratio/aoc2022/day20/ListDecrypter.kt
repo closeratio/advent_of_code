@@ -9,21 +9,27 @@ class ListDecrypter(
     fun getAt(list: List<ListItem>, index: Int): ListItem =
         list[(list.indexOf(list.find { it.value == 0L }) + index) % list.size]
 
-    fun mix(): List<ListItem> {
+    fun mix(
+        times: Int = 1
+    ): List<ListItem> {
         val modifiedList = LinkedList(items)
 
-        items.forEach { item ->
-            val oldIndex = modifiedList.indexOf(item)
-            modifiedList.removeAt(oldIndex)
+        repeat(times) {
+            items.forEach { item ->
+                val oldIndex = modifiedList.indexOf(item)
+                modifiedList.removeAt(oldIndex)
 
-            val newIndex = (oldIndex + item.value).mod(modifiedList.size)
-            modifiedList.add(newIndex, item)
+                val newIndex = (oldIndex + item.value).mod(modifiedList.size)
+                modifiedList.add(newIndex, item)
+            }
         }
 
         return modifiedList
     }
 
-    fun mixAndSum(): Long = mix()
+    fun mixAndSum(
+        times: Int = 1
+    ): Long = mix(times)
         .let {
             listOf(
                 getAt(it, 1000),

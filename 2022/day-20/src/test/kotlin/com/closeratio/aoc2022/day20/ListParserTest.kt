@@ -36,4 +36,12 @@ class ListParserTest {
         assertThat(result).isEqualTo(7153)
     }
 
+    @Test
+    fun parse_mixAndSumWithDecryptionKey_returnsExpectedValue() {
+        val decrypter = listParser.parse("/test_input.txt", 811_589_153L)
+        val result = decrypter.mixAndSum(10)
+
+        assertThat(result).isEqualTo(1_623_178_306L)
+    }
+
 }

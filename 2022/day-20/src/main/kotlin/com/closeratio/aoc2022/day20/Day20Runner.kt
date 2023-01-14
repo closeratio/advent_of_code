@@ -16,6 +16,10 @@ class Day20Runner(
             .mixAndSum()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        parser
+            .parse("/2022_day_20_input.txt", 811_589_153L)
+            .mixAndSum(10)
+    }
 
 }
