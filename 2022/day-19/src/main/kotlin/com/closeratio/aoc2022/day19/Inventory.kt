@@ -49,4 +49,20 @@ data class Inventory(
 
     }
 
+    fun calculateGeodeCountAtEnd(
+        maxMinutes: Long
+    ): Long = geodeCount + (maxMinutes - minute) * geodeRobots
+
+    fun theoreticalGeodeCount(
+        maxMinutes: Long
+    ): Long {
+        if (minute == maxMinutes) {
+            return geodeCount
+        }
+
+        return geodeCount + ((minute + 1)..maxMinutes)
+            .map { it - minute }
+            .sumOf { geodeRobots + it }
+    }
+
 }

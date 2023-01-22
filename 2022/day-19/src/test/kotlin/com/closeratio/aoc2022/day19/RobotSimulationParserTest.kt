@@ -20,4 +20,13 @@ class RobotSimulationParserTest {
         assertThat(result).isEqualTo(33)
     }
 
+    @Test
+    fun parse_computeQualityLevelSumRealData_returnsExpectedValue() {
+        val result = robotSimulationParser
+            .parse("/2022_day_19_input.txt")
+            .computeQualityLevelSum(24)
+
+        assertThat(result).isGreaterThan(983)
+    }
+
 }

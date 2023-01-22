@@ -1,6 +1,7 @@
 package com.closeratio.aoc2022.day19.robot
 
 import com.closeratio.aoc2022.day19.Inventory
+import kotlin.math.ceil
 
 abstract class Robot(
     private val oreCost: Long,
@@ -33,8 +34,7 @@ abstract class Robot(
             requiredMinutesForSpecificResource(inventory.oreCount, oreCost, inventory.oreRobots),
             requiredMinutesForSpecificResource(inventory.clayCount, clayCost, inventory.clayRobots),
             requiredMinutesForSpecificResource(inventory.obsidianCount, obsidianCost, inventory.obsidianRobots)
-        ).max()
-
+        ).max() + 1
     }
 
     private fun requiredMinutesForSpecificResource(
@@ -49,9 +49,7 @@ abstract class Robot(
         }
 
         val amountToMine = cost - currentAmount
-
-        val requiredMinutesTruncated = amountToMine / robotCount
-        return requiredMinutesTruncated + if ((amountToMine % robotCount) != 0L) 1 else 0
+        return ceil(amountToMine / robotCount.toDouble()).toLong()
     }
 
 }

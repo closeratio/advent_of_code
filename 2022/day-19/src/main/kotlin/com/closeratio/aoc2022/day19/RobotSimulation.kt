@@ -14,18 +14,25 @@ class RobotSimulation(
         blueprint: Blueprint
     ): Long {
         var maxGeodes = 0L
-        val stateQueue = LinkedList(
-            listOf(
-                Inventory(0, 0, 0, 0, 0, 1, 0, 0, 0)
-            )
-        )
+        val stateQueue = PriorityQueue(Comparator.comparingLong(Inventory::geodeRobots).reversed())
+        stateQueue += Inventory(0, 0, 0, 0, 0, 1, 0, 0, 0)
+
+        var earliestGeodeRobotMinute = Long.MAX_VALUE
 
         while (stateQueue.isNotEmpty()) {
-            val state = stateQueue.first()
-            stateQueue.remove(state)
-            stateQueue.addAll(state.nextStates(maxMinutes, blueprint))
+            val state = stateQueue.poll()
+            if (state.geodeRobots == 0L && state.minute >= earliestGeodeRobotMinute) {
+                continue
+            }
 
-            maxGeodes = maxOf(maxGeodes, state.geodeCount)
+            stateQueue.addAll(state.nextStates(maxMinutes, blueprint))
+            if (state.geodeRobots > 0) {
+                earliestGeodeRobotMinute = minOf(earliestGeodeRobotMinute, state.minute)
+            }
+
+            if (state.geodeCount > 0) {
+                maxGeodes = maxOf(maxGeodes, state.calculateGeodeCountAtEnd(maxMinutes))
+            }
         }
 
         return maxGeodes * blueprint.id
