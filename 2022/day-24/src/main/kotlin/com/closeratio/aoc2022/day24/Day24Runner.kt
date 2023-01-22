@@ -14,8 +14,14 @@ class Day24Runner(
         parser
             .parse("/2022_day_24_input.txt")
             .calculateMinutesToGoal()
+            .minute
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Int = {
+        parser
+            .parse("/2022_day_24_input.txt")
+            .calculateMinutesToGoalTwice()
+            .minute
+    }
 
 }

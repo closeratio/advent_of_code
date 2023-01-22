@@ -31,13 +31,15 @@ class BlizzardSimulationParser(
         }
         .let {
             val blizzards = it.flatMap(Pair<MutableSet<Blizzard>, MutableSet<Vec2>>::first)
-            val walls = it.flatMap(Pair<MutableSet<Blizzard>, MutableSet<Vec2>>::second).toSet()
+            val walls = it
+                .flatMap(Pair<MutableSet<Blizzard>, MutableSet<Vec2>>::second)
+                .toSet()
+                .let(::Walls)
 
             BlizzardSimulation(
-                WorldState(
-                    walls,
+                walls,
+                BlizzardState(
                     blizzards,
-                    Vec2(1, 0),
                     0
                 )
             )

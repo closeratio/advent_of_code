@@ -15,7 +15,7 @@ data class Blizzard(
         RIGHT
     }
 
-    fun move(walls: Set<Vec2>): Blizzard {
+    fun move(walls: Walls): Blizzard {
         val proposedNextPosition = when (direction) {
             UP -> position.up()
             DOWN -> position.down()
@@ -23,15 +23,15 @@ data class Blizzard(
             RIGHT -> position.right()
         }
 
-        if (proposedNextPosition !in walls) {
+        if (!walls.overlaps(proposedNextPosition)) {
             return Blizzard(proposedNextPosition, direction)
         }
 
         return Blizzard(
             when (direction) {
-                UP -> Vec2(position.x, walls.maxOf(Vec2::y) - 1)
+                UP -> Vec2(position.x, walls.maxY - 1)
                 DOWN -> Vec2(position.x, 1)
-                LEFT -> Vec2(walls.maxOf(Vec2::x) - 1, position.y)
+                LEFT -> Vec2(walls.maxX - 1, position.y)
                 RIGHT -> Vec2(1, position.y)
             },
             direction

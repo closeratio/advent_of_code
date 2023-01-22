@@ -17,7 +17,25 @@ class BlizzardSimulationParserTest {
             .parse("/test_input.txt")
             .calculateMinutesToGoal()
 
-        assertThat(result).isEqualTo(18)
+        assertThat(result.minute).isEqualTo(18)
+    }
+
+    @Test
+    fun parse_calculateStepsToGoalRealData_returnsExpectedValue() {
+        val result = blizzardSimulationParser
+            .parse("/2022_day_24_input.txt")
+            .calculateMinutesToGoal()
+
+        assertThat(result.minute).isEqualTo(247)
+    }
+
+    @Test
+    fun parse_calculateMinutesToGoalTwice_returnsExpectedValue() {
+        val result = blizzardSimulationParser
+            .parse("/test_input.txt")
+            .calculateMinutesToGoalTwice()
+
+        assertThat(result.minute).isEqualTo(54)
     }
 
 }
