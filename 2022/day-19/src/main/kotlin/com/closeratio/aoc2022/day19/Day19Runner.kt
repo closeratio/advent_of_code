@@ -16,6 +16,10 @@ class Day19Runner(
             .computeQualityLevelSum(24L)
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        parser
+            .parse("/2022_day_19_input.txt")
+            .computeGeodeProduct(32)
+    }
 
 }

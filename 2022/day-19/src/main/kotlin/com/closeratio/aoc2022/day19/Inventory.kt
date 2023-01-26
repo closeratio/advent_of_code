@@ -20,7 +20,7 @@ data class Inventory(
         maxMinutes: Long,
         blueprint: Blueprint
     ): List<Inventory> {
-        if (minute >= maxMinutes) {
+        if (minute > maxMinutes) {
             return emptyList()
         }
 

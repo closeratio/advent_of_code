@@ -2,6 +2,7 @@ package com.closeratio.aoc2022.day19
 
 import org.slf4j.LoggerFactory
 import java.util.*
+import kotlin.Long.Companion.MAX_VALUE
 
 class RobotSimulation(
     private val blueprints: List<Blueprint>
@@ -15,9 +16,9 @@ class RobotSimulation(
     ): Long {
         var maxGeodes = 0L
         val stateQueue = PriorityQueue(Comparator.comparingLong(Inventory::geodeRobots).reversed())
-        stateQueue += Inventory(0, 0, 0, 0, 0, 1, 0, 0, 0)
+        stateQueue += Inventory(1, 1, 0, 0, 0, 1, 0, 0, 0)
 
-        var earliestGeodeRobotMinute = Long.MAX_VALUE
+        var earliestGeodeRobotMinute = MAX_VALUE
 
         while (stateQueue.isNotEmpty()) {
             val state = stateQueue.poll()
@@ -30,7 +31,7 @@ class RobotSimulation(
                 earliestGeodeRobotMinute = minOf(earliestGeodeRobotMinute, state.minute)
             }
 
-            if (state.geodeCount > 0) {
+            if (state.geodeRobots > 0) {
                 maxGeodes = maxOf(maxGeodes, state.calculateGeodeCountAtEnd(maxMinutes))
             }
         }
@@ -46,6 +47,17 @@ class RobotSimulation(
         log.info("Quality level of blueprint ${it.id} = $result")
         result
     }
+
+    fun computeGeodeProduct(
+        maxMinutes: Long
+    ): Long = blueprints
+        .take(3)
+        .map {
+            log.info("Computing max geodes of blueprint ${it.id}")
+            val result = computeQualityLevel(maxMinutes, it) / it.id
+            log.info("Max geodes of blueprint ${it.id} = $result")
+            result
+        }.reduce { a, b -> a * b }
 
 }
 
