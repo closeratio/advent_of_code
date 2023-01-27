@@ -22,7 +22,11 @@ class RobotSimulation(
 
         while (stateQueue.isNotEmpty()) {
             val state = stateQueue.poll()
-            if (state.geodeRobots == 0L && state.minute >= earliestGeodeRobotMinute) {
+            if (state.geodeRobots == 0L && state.minute > earliestGeodeRobotMinute) {
+                continue
+            }
+
+            if (state.theoreticalGeodeCount(maxMinutes) <= maxGeodes) {
                 continue
             }
 
@@ -32,7 +36,8 @@ class RobotSimulation(
             }
 
             if (state.geodeRobots > 0) {
-                maxGeodes = maxOf(maxGeodes, state.calculateGeodeCountAtEnd(maxMinutes))
+                val endGeodes = state.calculateGeodeCountAtEnd(maxMinutes)
+                maxGeodes = maxOf(maxGeodes, endGeodes)
             }
         }
 

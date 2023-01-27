@@ -33,7 +33,7 @@ class RobotSimulationParserTest {
     fun parse_computeGeodeProduct_returnsExpectedValue() {
         val result = robotSimulationParser
             .parse("/test_input.txt")
-            .computeQualityLevelSum(32)
+            .computeGeodeProduct(32)
 
         assertThat(result).isEqualTo(62 * 56)
     }
