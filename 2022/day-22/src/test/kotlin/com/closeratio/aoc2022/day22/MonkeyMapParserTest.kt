@@ -20,4 +20,13 @@ class MonkeyMapParserTest {
         assertThat(result).isEqualTo(6032)
     }
 
+    @Test
+    fun parseAdvancedRealData_computePassword_returnsExpectedValue() {
+        val result = monkeyMapParser
+            .parse("/2022_day_22_input.txt", false)
+            .computePassword()
+
+        assertThat(result).isEqualTo(6032)
+    }
+
 }

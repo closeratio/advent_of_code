@@ -16,6 +16,10 @@ class Day22Runner(
             .computePassword()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        parser
+            .parse("/2022_day_22_input.txt", false)
+            .computePassword()
+    }
 
 }

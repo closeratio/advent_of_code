@@ -59,13 +59,23 @@ class MonkeyMapParser(
             }
         }
 
-    fun parse(path: String): MonkeyMap = resourceLoader
+    fun parse(
+        path: String,
+        simple: Boolean = true
+    ): MonkeyMap = resourceLoader
         .loadResourceLines(path, false)
         .let { lines ->
-            MonkeyMap(
-                parseMap(lines.dropLast(3)),
-                parseActions(lines.dropLast(1).last())
-            )
+            if (simple) {
+                SimpleMonkeyMap(
+                    parseMap(lines.dropLast(3)),
+                    parseActions(lines.dropLast(1).last())
+                )
+            } else {
+                AdvancedMonkeyMap(
+                    parseMap(lines.dropLast(3)),
+                    parseActions(lines.dropLast(1).last())
+                )
+            }
         }
 
 
