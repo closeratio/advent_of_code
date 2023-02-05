@@ -26,7 +26,7 @@ class MonkeyMapParserTest {
             .parse("/2022_day_22_input.txt", false)
             .computePassword()
 
-        assertThat(result).isEqualTo(6032)
+        assertThat(result).isEqualTo(147245)
     }
 
 }

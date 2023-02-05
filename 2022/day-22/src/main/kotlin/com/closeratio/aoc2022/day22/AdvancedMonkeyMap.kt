@@ -14,7 +14,6 @@ class AdvancedMonkeyMap(
     )
 
     data class TransitionRuleSet(
-        val sourceZone: Zone,
         val north: ZoneTransitionRule,
         val east: ZoneTransitionRule,
         val south: ZoneTransitionRule,
@@ -36,10 +35,49 @@ class AdvancedMonkeyMap(
         Zone("F", map.values.filter { it.position.y >= 150 }.filter { it.position.x < 50 }.toSet())
     )
 
-    private val adjacentZoneMap: Map<Zone, TransitionRuleSet> = emptyMap()
+    private val zoneMap = zones.associateBy(Zone::id)
+
+    private val adjacentZoneMap: Map<Zone, TransitionRuleSet> = mapOf(
+        zoneMap.getValue("A") to TransitionRuleSet(
+            ZoneTransitionRule(zoneMap.getValue("F"), SOUTH, false),
+            ZoneTransitionRule(zoneMap.getValue("D"), EAST, true),
+            ZoneTransitionRule(zoneMap.getValue("C"), EAST, false),
+            ZoneTransitionRule(zoneMap.getValue("B"), EAST, false),
+        ),
+        zoneMap.getValue("B") to TransitionRuleSet(
+            ZoneTransitionRule(zoneMap.getValue("F"), WEST, false),
+            ZoneTransitionRule(zoneMap.getValue("A"), WEST, false),
+            ZoneTransitionRule(zoneMap.getValue("C"), NORTH, false),
+            ZoneTransitionRule(zoneMap.getValue("E"), WEST, true),
+        ),
+        zoneMap.getValue("C") to TransitionRuleSet(
+            ZoneTransitionRule(zoneMap.getValue("B"), SOUTH, false),
+            ZoneTransitionRule(zoneMap.getValue("A"), SOUTH, false),
+            ZoneTransitionRule(zoneMap.getValue("D"), NORTH, false),
+            ZoneTransitionRule(zoneMap.getValue("E"), NORTH, false),
+        ),
+        zoneMap.getValue("D") to TransitionRuleSet(
+            ZoneTransitionRule(zoneMap.getValue("C"), SOUTH, false),
+            ZoneTransitionRule(zoneMap.getValue("A"), EAST, true),
+            ZoneTransitionRule(zoneMap.getValue("F"), EAST, false),
+            ZoneTransitionRule(zoneMap.getValue("E"), EAST, false),
+        ),
+        zoneMap.getValue("E") to TransitionRuleSet(
+            ZoneTransitionRule(zoneMap.getValue("C"), WEST, false),
+            ZoneTransitionRule(zoneMap.getValue("D"), WEST, false),
+            ZoneTransitionRule(zoneMap.getValue("F"), NORTH, false),
+            ZoneTransitionRule(zoneMap.getValue("B"), WEST, true),
+        ),
+        zoneMap.getValue("F") to TransitionRuleSet(
+            ZoneTransitionRule(zoneMap.getValue("E"), SOUTH, false),
+            ZoneTransitionRule(zoneMap.getValue("D"), SOUTH, false),
+            ZoneTransitionRule(zoneMap.getValue("A"), NORTH, false),
+            ZoneTransitionRule(zoneMap.getValue("B"), NORTH, false),
+        )
+    )
 
     private val zoneWidth =
-        zones.first().tiles.let { riles -> riles.maxOf { it.position.x } - riles.minOf { it.position.x } }
+        (zones.first().tiles.let { riles -> riles.maxOf { it.position.x } - riles.minOf { it.position.x } }) + 1
 
     override fun computePassword(): Long {
         var currPos = map.values.filter { it.position.y == 0L }.minBy { it.position.x }
@@ -94,8 +132,8 @@ class AdvancedMonkeyMap(
             .let {
                 when (currOrientation) {
                     NORTH -> it.north
-                    EAST -> it.south
-                    SOUTH -> it.east
+                    EAST -> it.east
+                    SOUTH -> it.south
                     WEST -> it.west
                 }
             }
