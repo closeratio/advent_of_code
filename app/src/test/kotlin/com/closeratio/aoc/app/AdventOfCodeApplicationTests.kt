@@ -4,7 +4,7 @@ import com.closeratio.aoc.common.AocTest
 import org.junit.jupiter.api.Test
 
 @AocTest
-class AdventOfCode2022ApplicationTests {
+class AdventOfCodeApplicationTests {
 
 	@Test
 	fun contextLoads() {

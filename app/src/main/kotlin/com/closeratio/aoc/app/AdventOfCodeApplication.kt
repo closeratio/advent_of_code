@@ -6,8 +6,8 @@ import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
 @ComponentScan("com.closeratio")
-class AdventOfCode2022Application
+class AdventOfCodeApplication
 
 fun main(args: Array<String>) {
-	runApplication<AdventOfCode2022Application>(*args)
+	runApplication<AdventOfCodeApplication>(*args)
 }
