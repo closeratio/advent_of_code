@@ -24,4 +24,13 @@ class GameAnalyserTest {
         assertThat(result).isEqualTo(8)
     }
 
+    @Test
+    fun sumPowerSets_returnsExpectedValue() {
+        val result = gameAnalyser.sumPowerSets(
+            resourceLoader.loadResourceLines("/test_input.txt")
+        )
+
+        assertThat(result).isEqualTo(2286)
+    }
+
 }

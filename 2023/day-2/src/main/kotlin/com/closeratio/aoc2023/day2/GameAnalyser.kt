@@ -54,4 +54,10 @@ class GameAnalyser {
         .map(Game::id)
         .sum()
 
+    fun sumPowerSets(
+        lines: List<String>
+    ): Long = parseGames(lines)
+        .map(Game::powerSet)
+        .sum()
+
 }

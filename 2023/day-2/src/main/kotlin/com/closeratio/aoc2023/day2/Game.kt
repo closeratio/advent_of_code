@@ -9,4 +9,6 @@ data class Game(
     fun maxGreen(): Long = handfulls.maxOf(Handfull::greenCubes)
     fun maxBlue(): Long = handfulls.maxOf(Handfull::blueCubes)
 
+    fun powerSet(): Long = maxRed() * maxGreen() * maxBlue()
+
 }

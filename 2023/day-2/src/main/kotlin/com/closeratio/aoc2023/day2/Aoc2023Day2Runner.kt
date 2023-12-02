@@ -17,6 +17,9 @@ class Aoc2023Day2Runner(
             .computePossibleGames(resourceLoader.loadResourceLines("/2023_day_2_input.txt"))
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        gameAnalyser
+            .sumPowerSets(resourceLoader.loadResourceLines("/2023_day_2_input.txt"))
+    }
 
 }
