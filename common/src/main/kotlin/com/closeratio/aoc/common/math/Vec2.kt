@@ -32,6 +32,8 @@ data class Vec2(
         down().right()
     )
 
+    fun allAdjacent(): Set<Vec2> = immediatelyAdjacent() + diagonals()
+
     fun isAdjacent(
         other: Vec2,
         includeDiagonals: Boolean = false
