@@ -16,6 +16,8 @@ class Aoc2023Day3Runner(
         schematicAnalyser.partNumberSum(resourceLoader.loadResourceLines("/2023_day_3_input.txt"))
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        schematicAnalyser.gearRatioSum(resourceLoader.loadResourceLines("/2023_day_3_input.txt"))
+    }
 
 }

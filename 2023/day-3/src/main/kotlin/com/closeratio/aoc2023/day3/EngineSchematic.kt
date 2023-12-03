@@ -51,6 +51,14 @@ class EngineSchematic(
         return partNumbers
     }
 
+    fun gearRatioSum(): Long = findParts()
+        .filterValues { it == "*" }
+        .keys
+        .map(::getPartNumbers)
+        .filter { it.size == 2 }
+        .map { it[0] * it[1] }
+        .sum()
+
     fun partNumberSum(): Long = findParts()
         .keys
         .flatMap(::getPartNumbers)

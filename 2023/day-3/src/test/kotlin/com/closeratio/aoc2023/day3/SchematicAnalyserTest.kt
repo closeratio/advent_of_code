@@ -22,4 +22,11 @@ class SchematicAnalyserTest {
         assertThat(result).isEqualTo(4361)
     }
 
+    @Test
+    fun gearRatioSum_returnsExpectedValue() {
+        val result = schematicAnalyser.gearRatioSum(resourceLoader.loadResourceLines("/test-input.txt"))
+
+        assertThat(result).isEqualTo(467835)
+    }
+
 }

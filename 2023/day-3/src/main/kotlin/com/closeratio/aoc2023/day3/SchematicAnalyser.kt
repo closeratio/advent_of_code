@@ -19,4 +19,7 @@ class SchematicAnalyser {
     fun partNumberSum(input: List<String>): Long = parseSchematic(input)
         .partNumberSum()
 
+    fun gearRatioSum(input: List<String>): Long = parseSchematic(input)
+        .gearRatioSum()
+
 }
