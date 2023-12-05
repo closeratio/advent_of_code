@@ -10,4 +10,9 @@ data class Range(
         return outputRange.first + delta
     }
 
+    fun mapOutputValue(value: Long): Long {
+        val delta = value - outputRange.first
+        return inputRange.first + delta
+    }
+
 }

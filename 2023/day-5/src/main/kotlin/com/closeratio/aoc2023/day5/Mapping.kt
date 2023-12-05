@@ -8,5 +8,11 @@ data class Mapping(
 
         return applicableRange.mapInputValue(value)
     }
+
+    fun mapOutputValue(value: Long): Long {
+        val applicableRange = ranges.firstOrNull { value in it.outputRange } ?: return value
+
+        return applicableRange.mapOutputValue(value)
+    }
 }
 
