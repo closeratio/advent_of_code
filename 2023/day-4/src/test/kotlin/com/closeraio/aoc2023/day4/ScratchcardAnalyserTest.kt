@@ -25,4 +25,13 @@ class ScratchcardAnalyserTest {
         assertThat(result).isEqualTo(13)
     }
 
+    @Test
+    fun sumTotalScratchcards_returnsExpectedValue() {
+        val result = scratchcardAnalyser.sumTotalScratchcards(
+            resourceLoader.loadResourceLines("/test_input.txt")
+        )
+
+        assertThat(result).isEqualTo(30)
+    }
+
 }

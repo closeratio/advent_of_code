@@ -18,6 +18,10 @@ class Aoc2023Day4Runner(
         )
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        scratchcardAnalyser.sumTotalScratchcards(
+            resourceLoader.loadResourceLines("/2023_day_4_input.txt")
+        )
+    }
 
 }

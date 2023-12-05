@@ -30,5 +30,15 @@ class ScratchcardAnalyser {
         .map(Scratchcard::calculateValue)
         .sum()
 
+    fun sumTotalScratchcards(
+        lines: List<String>
+    ): Long {
+        val scratchcards = parseScratchcards(lines).associateBy(Scratchcard::id)
+        val totalCache = mutableMapOf<Long, Long>()
+        return scratchcards
+            .values
+            .map { it.calculateScratchcardCount(scratchcards, totalCache) }
+            .sum()
+    }
 }
 
