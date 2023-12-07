@@ -18,6 +18,11 @@ class Aoc2023Day6Runner(
         )
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        raceAnalyser.computePossibleRecords(
+            resourceLoader.loadResourceLines("/2023_day_6_input.txt"),
+            true
+        )
+    }
 
 }

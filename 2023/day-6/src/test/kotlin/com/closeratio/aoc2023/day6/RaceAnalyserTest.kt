@@ -24,4 +24,14 @@ class RaceAnalyserTest {
         assertThat(result).isEqualTo(288)
     }
 
+    @Test
+    fun computePossibleRecordsSingleRace_returnsExpectedValue() {
+        val result = raceAnalyser.computePossibleRecords(
+            resourceLoader.loadResourceLines("/test_input.txt"),
+            true
+        )
+
+        assertThat(result).isEqualTo(71503)
+    }
+
 }

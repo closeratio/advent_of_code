@@ -6,13 +6,18 @@ import org.springframework.stereotype.Component
 class RaceAnalyser {
 
     private fun parseRecords(
-        input: List<String>
+        input: List<String>,
+        concatenate: Boolean
     ): List<RaceRecord> = input
         .map { it.split(":")[1] }
         .map(String::trim)
         .map { it.split("""\s+""".toRegex()) }
         .let { (times, distances) ->
-            times.zip(distances)
+            if (concatenate) {
+                listOf(times.joinToString("") to distances.joinToString(""))
+            } else {
+                times.zip(distances)
+            }
         }
         .map { (timeString, distanceString) -> RaceRecord(timeString.toLong(), distanceString.toLong()) }
 
@@ -26,8 +31,9 @@ class RaceAnalyser {
         .toLong()
 
     fun computePossibleRecords(
-        input: List<String>
-    ): Long = parseRecords(input)
+        input: List<String>,
+        concatenate: Boolean = false
+    ): Long = parseRecords(input, concatenate)
         .map(::computeStrategyCount)
         .reduce { acc, curr -> acc * curr }
 
