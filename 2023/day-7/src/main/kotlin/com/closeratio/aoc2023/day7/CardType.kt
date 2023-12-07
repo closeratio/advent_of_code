@@ -17,3 +17,4 @@ enum class CardType(
     THREE(2),
     TWO(1)
 }
+

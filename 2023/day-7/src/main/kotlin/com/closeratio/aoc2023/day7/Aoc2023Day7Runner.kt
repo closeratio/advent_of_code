@@ -18,6 +18,11 @@ class Aoc2023Day7Runner(
         )
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        handAnalyser.computeTotalWinnings(
+            resourceLoader.loadResourceLines("/2023_day_7_input.txt"),
+            true
+        )
+    }
 
 }

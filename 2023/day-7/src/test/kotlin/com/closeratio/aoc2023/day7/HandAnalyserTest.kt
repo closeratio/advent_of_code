@@ -24,4 +24,14 @@ class HandAnalyserTest {
         assertThat(result).isEqualTo(6440)
     }
 
+    @Test
+    fun computeTotalWinnings_specialJokerRule_returnsExpectedValue() {
+        val result = handAnalyser.computeTotalWinnings(
+            resourceLoader.loadResourceLines("/test_input.txt"),
+            true
+        )
+
+        assertThat(result).isEqualTo(5905)
+    }
+
 }
