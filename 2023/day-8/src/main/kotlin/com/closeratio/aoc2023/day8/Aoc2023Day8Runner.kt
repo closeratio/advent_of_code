@@ -18,6 +18,10 @@ class Aoc2023Day8Runner(
         ).stepCount()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        networkParser.parse(
+            resourceLoader.loadResourceLines("/2023_day_8_input.txt")
+        ).stepCountSimultaneous()
+    }
 
 }

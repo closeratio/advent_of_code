@@ -5,6 +5,8 @@ class Node(
 ) {
     lateinit var leftNode: Node
     lateinit var rightNode: Node
+
+    val isEndNode = id.value.endsWith("Z")
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

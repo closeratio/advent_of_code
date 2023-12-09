@@ -31,4 +31,12 @@ class NetworkAnalyserTest {
         assertThat(result).isEqualTo(6)
     }
 
+    @Test
+    fun stepCountSimultaneous_thirdTestInput_returnsExpectedValue() {
+        val result = networkParser.parse(resourceLoader.loadResourceLines("/test_input_3.txt"))
+            .stepCountSimultaneous()
+
+        assertThat(result).isEqualTo(6)
+    }
+
 }
