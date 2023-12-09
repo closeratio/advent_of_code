@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
 @AocTest
-class SeequenceAnalyserTest {
+class SequenceAnalyserTest {
 
     @Autowired
     private lateinit var resourceLoader: ResourceLoader
@@ -16,12 +16,21 @@ class SeequenceAnalyserTest {
     private lateinit var sequenceParser: SequenceParser
 
     @Test
-    fun sumExtrapolatedValues_returnsExpectedValue() {
+    fun sumNextValues_returnsExpectedValue() {
         val result = sequenceParser.parse(
             resourceLoader.loadResourceLines("/test_input.txt")
-        ).sumExtrapolatedValues()
+        ).sumNextValues()
 
         assertThat(result).isEqualTo(114)
+    }
+
+    @Test
+    fun sumPreviousValues_returnsExpectedValue() {
+        val result = sequenceParser.parse(
+            resourceLoader.loadResourceLines("/test_input.txt")
+        ).sumPreviousValues()
+
+        assertThat(result).isEqualTo(2)
     }
 
 }

@@ -15,4 +15,12 @@ data class NumberSequence(
         .windowed(2, 1)
         .map { (first, second) -> second - first }
         .let(::NumberSequence)
+
+    fun getPreviousValue(): Long {
+        return if (values.all { it == 0L }) {
+            0
+        } else {
+            values.first() - derive().getPreviousValue()
+        }
+    }
 }

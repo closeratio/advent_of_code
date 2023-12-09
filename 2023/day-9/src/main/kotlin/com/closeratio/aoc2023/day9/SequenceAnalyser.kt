@@ -4,8 +4,12 @@ class SequenceAnalyser(
     val numberSequences: List<NumberSequence>
 ) {
 
-    fun sumExtrapolatedValues(): Long = numberSequences
+    fun sumNextValues(): Long = numberSequences
         .map(NumberSequence::getNextValue)
+        .sum()
+
+    fun sumPreviousValues(): Long = numberSequences
+        .map(NumberSequence::getPreviousValue)
         .sum()
 
 }

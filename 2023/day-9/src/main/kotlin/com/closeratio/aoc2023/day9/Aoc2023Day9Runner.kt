@@ -15,9 +15,13 @@ class Aoc2023Day9Runner(
     override fun part1Function(): () -> Long = {
         sequenceParser.parse(
             resourceLoader.loadResourceLines("/2023_day_9_input.txt")
-        ).sumExtrapolatedValues()
+        ).sumNextValues()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        sequenceParser.parse(
+            resourceLoader.loadResourceLines("/2023_day_9_input.txt")
+        ).sumPreviousValues()
+    }
 
 }
