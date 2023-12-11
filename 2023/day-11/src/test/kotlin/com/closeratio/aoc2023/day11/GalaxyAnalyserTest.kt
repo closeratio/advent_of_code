@@ -24,4 +24,22 @@ class GalaxyAnalyserTest {
         assertThat(result).isEqualTo(374)
     }
 
+    @Test
+    fun sumShortestPaths_largerExpansionFactor_returnsExpectedValue() {
+        val result = galaxyParser.parse(
+            resourceLoader.loadResourceLines("/test_input.txt")
+        ).sumShortestPaths(10)
+
+        assertThat(result).isEqualTo(1030)
+    }
+
+    @Test
+    fun sumShortestPaths_muchLargerExpansionFactor_returnsExpectedValue() {
+        val result = galaxyParser.parse(
+            resourceLoader.loadResourceLines("/test_input.txt")
+        ).sumShortestPaths(100)
+
+        assertThat(result).isEqualTo(8410)
+    }
+
 }

@@ -6,7 +6,9 @@ class GalaxyAnalyser(
     val stars: Set<Vec2>
 ) {
 
-    private fun growGalaxy(): Set<Vec2> {
+    private fun growGalaxy(
+        expansionFactor: Long
+    ): Set<Vec2> {
         var currOffset = 0L
         val offsetXStars = (stars.minOf(Vec2::x)..stars.maxOf(Vec2::x))
             .flatMap { x ->
@@ -14,7 +16,7 @@ class GalaxyAnalyser(
                 if (matchingStars.isNotEmpty()) {
                     matchingStars.map { Vec2(it.x + currOffset, it.y) }
                 } else {
-                    currOffset++
+                    currOffset += (expansionFactor - 1)
                     emptyList()
                 }
             }
@@ -26,15 +28,17 @@ class GalaxyAnalyser(
                 if (matchingStars.isNotEmpty()) {
                     matchingStars.map { Vec2(it.x, it.y + currOffset) }
                 } else {
-                    currOffset++
+                    currOffset += (expansionFactor - 1)
                     emptyList()
                 }
             }
             .toSet()
     }
 
-    fun sumShortestPaths(): Long {
-        val grownGalaxy = growGalaxy()
+    fun sumShortestPaths(
+        expansionFactor: Long = 2
+    ): Long {
+        val grownGalaxy = growGalaxy(expansionFactor)
 
         val checkedStars = mutableSetOf<Vec2>()
         return grownGalaxy

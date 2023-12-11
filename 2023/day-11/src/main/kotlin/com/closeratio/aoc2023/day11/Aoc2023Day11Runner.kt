@@ -18,6 +18,11 @@ class Aoc2023Day11Runner(
         ).sumShortestPaths()
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        galaxyParser.parse(
+            resourceLoader.loadResourceLines("/2023_day_11_input.txt")
+        ).sumShortestPaths(1000000)
+    }
+
 
 }
