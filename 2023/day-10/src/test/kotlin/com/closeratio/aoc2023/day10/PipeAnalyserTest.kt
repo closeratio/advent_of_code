@@ -19,7 +19,7 @@ class PipeAnalyserTest {
     fun farthestDistanceFromStart_simpleInput_returnsExpectedValue() {
         val result = pipeParser.parse(
             resourceLoader.loadResourceLines("/test_input_1.txt")
-        ).farthestDistanceFromStart()
+        ).farthestDistanceFromStart().value
 
         assertThat(result).isEqualTo(4)
     }
@@ -28,9 +28,36 @@ class PipeAnalyserTest {
     fun farthestDistanceFromStart_complexInput_returnsExpectedValue() {
         val result = pipeParser.parse(
             resourceLoader.loadResourceLines("/test_input_2.txt")
-        ).farthestDistanceFromStart()
+        ).farthestDistanceFromStart().value
 
         assertThat(result).isEqualTo(8)
+    }
+
+    @Test
+    fun calculateTilesEnclosedByLoop_simpleInput_returnsExpectedValue() {
+        val result = pipeParser.parse(
+            resourceLoader.loadResourceLines("/test_input_3.txt")
+        ).calculateTilesEnclosedByLoop()
+
+        assertThat(result).isEqualTo(4)
+    }
+
+    @Test
+    fun calculateTilesEnclosedByLoop_complexInput_returnsExpectedValue() {
+        val result = pipeParser.parse(
+            resourceLoader.loadResourceLines("/test_input_4.txt")
+        ).calculateTilesEnclosedByLoop()
+
+        assertThat(result).isEqualTo(8)
+    }
+
+    @Test
+    fun calculateTilesEnclosedByLoop_anotherComplexInput_returnsExpectedValue() {
+        val result = pipeParser.parse(
+            resourceLoader.loadResourceLines("/test_input_5.txt")
+        ).calculateTilesEnclosedByLoop()
+
+        assertThat(result).isEqualTo(10)
     }
 
 }

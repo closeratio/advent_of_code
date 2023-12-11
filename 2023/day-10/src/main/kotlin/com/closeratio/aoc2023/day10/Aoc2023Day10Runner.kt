@@ -15,9 +15,13 @@ class Aoc2023Day10Runner(
     override fun part1Function(): () -> Long = {
         pipeParser.parse(
             resourceLoader.loadResourceLines("/2023_day_10_input.txt")
-        ).farthestDistanceFromStart()
+        ).farthestDistanceFromStart().value
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        pipeParser.parse(
+            resourceLoader.loadResourceLines("/2023_day_10_input.txt")
+        ).calculateTilesEnclosedByLoop()
+    }
 
 }

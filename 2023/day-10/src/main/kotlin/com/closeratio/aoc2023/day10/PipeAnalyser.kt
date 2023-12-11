@@ -9,7 +9,12 @@ class PipeAnalyser(
     val pipes: Map<Vec2, Pipe>
 ) {
 
-    fun farthestDistanceFromStart(): Long {
+    data class FarthestDistanceResult(
+        val value: Long,
+        val visited: Set<Vec2>
+    )
+
+    fun farthestDistanceFromStart(): FarthestDistanceResult {
         val distanceMap = mutableMapOf<Vec2, Long>(
             start to 0
         )
@@ -34,7 +39,70 @@ class PipeAnalyser(
                 .filter { it !in visited }
         }
 
-        return distanceMap.values.max()
+        return FarthestDistanceResult(
+            distanceMap.values.max(),
+            visited
+        )
+    }
+
+    fun calculateTilesEnclosedByLoop(): Long {
+        val scaledLoop = farthestDistanceFromStart()
+            .visited
+            .map { it * 2 to pipes.getValue(it) }
+            .flatMap { (scaled, originalPipe) ->
+                val newPipe = Pipe(scaled, originalPipe.type)
+                newPipe.possibleConnectedPositions().toList() + scaled
+            }
+            .toSet()
+
+        val xRange = scaledLoop.minOf(Vec2::x)..scaledLoop.maxOf(Vec2::x)
+        val yRange = scaledLoop.minOf(Vec2::y)..scaledLoop.maxOf(Vec2::y)
+
+        val possibleInteriorGround = yRange
+            .filter { it % 2 == 0L } // We only care about the original tiles, not the ones that we've had to "create"
+            .flatMap { y ->
+                xRange
+                    .filter { it % 2 == 0L }
+                    .mapNotNull { x ->
+                        val pos = Vec2(x, y)
+                        if (pos !in scaledLoop) pos else null
+                    }
+            }
+
+        val knownInteriorGround = mutableSetOf<Vec2>()
+        val knownExteriorGround = mutableSetOf<Vec2>()
+        possibleInteriorGround
+            .sortedBy { it.x }
+            .sortedBy { it.y }
+            .forEach { possibleTile ->
+                val visited = mutableSetOf<Vec2>()
+                val visitQueue = LinkedHashSet(listOf(possibleTile))
+
+                while (visitQueue.isNotEmpty()) {
+                    val currPos = visitQueue.first()
+                    visitQueue.remove(currPos)
+                    visited += currPos
+
+                    if (currPos in knownInteriorGround) {
+                        knownInteriorGround += possibleTile
+                        break
+                    } else if (currPos in knownExteriorGround || currPos.x !in xRange || currPos.y !in yRange) {
+                        knownExteriorGround += possibleTile
+                        break
+                    } else {
+                        visitQueue += currPos
+                            .immediatelyAdjacent()
+                            .filter { it !in visited }
+                            .filter { it !in scaledLoop }
+                    }
+                }
+
+                if (possibleTile !in knownExteriorGround) {
+                    knownInteriorGround += possibleTile
+                }
+            }
+
+        return knownInteriorGround.size.toLong()
     }
 
 }
