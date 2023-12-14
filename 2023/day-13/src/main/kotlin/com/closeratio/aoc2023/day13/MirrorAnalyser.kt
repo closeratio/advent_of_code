@@ -22,23 +22,42 @@ class MirrorAnalyser {
 
     private fun parseMirrors(
         input: String
-    ): List<Pair<String, Mirror>> = input
+    ): List<Mirror> = input
         .split("\n\n")
         .map(String::trim)
-        .map { it to parseMirror(it) }
+        .map(::parseMirror)
 
     fun summarise(
         input: String
-    ): Long = parseMirrors(input)
-        .map { (string, mirror) ->
-            val result = mirror.summarize()
-            if (result == null) {
-                println("Unable to find symmetry in:\n$string")
-                throw IllegalStateException("No symmetry")
-            }
-            result
+    ): Long = parseMirrors(input).sumOf {
+        it.findSymmetryLine().first().summaryValue
+    }
+
+    private fun generateVariations(
+        mirror: Mirror
+    ): List<Mirror> = (0..mirror.maxY)
+        .flatMap { y ->
+            (0..mirror.maxX)
+                .map { x ->
+                    val vec = Vec2(x, y)
+                    val rocks = if (vec in mirror.rocks) mirror.rocks - vec else mirror.rocks + vec
+                    Mirror(rocks)
+                }
         }
-        .sum()
+
+    fun summariseWithoutSmudge(
+        input: String
+    ): Long = parseMirrors(input).sumOf { mirror ->
+        val originalLine = mirror.findSymmetryLine().first()
+
+        generateVariations(mirror)
+            .flatMap(Mirror::findSymmetryLine)
+            .toSet()
+            .toList()
+            .firstOrNull { it != originalLine }
+            ?.summaryValue
+            ?: throw IllegalStateException("Unable to find another symmetry line:\n${mirror.generateString()}\n")
+    }
 
 }
 
