@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component
 @Component
 class Aoc2023Day15Runner(
     private val resourceLoader: ResourceLoader,
-    private val hashGenerator: HashGenerator
+    private val hashGenerator: HashGenerator,
+    private val lensManager: LensManager
 ) : Aoc2023Runner() {
 
     override fun getDay(): Int = 15
@@ -18,7 +19,11 @@ class Aoc2023Day15Runner(
         )
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        lensManager.computeFocusingPower(
+            resourceLoader.loadResourceText("/2023_day_15_input.txt")
+        )
+    }
 
 
 }

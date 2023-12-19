@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 @Component
 class HashGenerator {
 
-    private fun computeHash(
+    fun computeHash(
         data: String
     ): Long = data
         .map { it.code.toLong() }
