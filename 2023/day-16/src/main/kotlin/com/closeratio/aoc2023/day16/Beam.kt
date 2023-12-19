@@ -10,7 +10,7 @@ class Beam(
     var currDirection: Direction
 ) {
 
-    var retreading: Boolean = false
+    private var retreading: Boolean = false
 
     fun move(
         cave: Cave,
@@ -44,6 +44,10 @@ class Beam(
     }
 
     fun isFinished(cave: Cave): Boolean {
+        if (positions.size == 1) {
+            return false
+        }
+
         if (retreading) {
             return true
         }

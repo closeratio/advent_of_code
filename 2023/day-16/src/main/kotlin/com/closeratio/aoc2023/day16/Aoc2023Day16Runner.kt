@@ -14,8 +14,7 @@ class Aoc2023Day16Runner(
 
     override fun part1Function(): () -> Long = {
         beamAnalyser.computeEnergisedCount(
-            resourceLoader.loadResourceLines("/2023_day_16_input.txt"),
-            Direction.DOWN
+            resourceLoader.loadResourceLines("/2023_day_16_input.txt")
         )
     }
 

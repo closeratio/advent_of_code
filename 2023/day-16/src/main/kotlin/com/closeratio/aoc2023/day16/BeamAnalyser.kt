@@ -1,7 +1,6 @@
 package com.closeratio.aoc2023.day16
 
 import com.closeratio.aoc.common.math.Vec2
-import com.closeratio.aoc.common.math.Vec2.Companion.ZERO
 import com.closeratio.aoc2023.day16.Direction.RIGHT
 import com.closeratio.aoc2023.day16.MirrorType.*
 import org.springframework.stereotype.Component
@@ -28,8 +27,7 @@ class BeamAnalyser {
         .toSet()
 
     fun computeEnergisedCount(
-        lines: List<String>,
-        initialDirection: Direction = RIGHT
+        lines: List<String>
     ): Long {
         val mirrors = parseMirrors(lines)
         val cave = Cave(
@@ -45,15 +43,15 @@ class BeamAnalyser {
                 it to Beam(
                     it,
                     arrayListOf(
-                        ZERO
+                        Vec2(-1, 0)
                     ),
-                    initialDirection
+                    RIGHT
                 )
             }
         )
 
         val beamHistory = mutableSetOf(
-            BeamHistory(ZERO, initialDirection)
+            BeamHistory(Vec2(-1, 0), RIGHT)
         )
 
         while (!beams.values.all { it.isFinished(cave) }) {

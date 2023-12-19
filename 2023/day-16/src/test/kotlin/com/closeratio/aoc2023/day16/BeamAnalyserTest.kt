@@ -2,7 +2,6 @@ package com.closeratio.aoc2023.day16
 
 import com.closeratio.aoc.common.AocTest
 import com.closeratio.aoc.common.ResourceLoader
-import com.closeratio.aoc2023.day16.Direction.DOWN
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,7 +28,6 @@ class BeamAnalyserTest {
     fun computeEnergisedCount_realData_returnsExpectedValue() {
         val result = beamAnalyser.computeEnergisedCount(
             resourceLoader.loadResourceLines("/2023_day_16_input.txt"),
-            DOWN
         )
 
         assertThat(result).isNotEqualTo(6187)
