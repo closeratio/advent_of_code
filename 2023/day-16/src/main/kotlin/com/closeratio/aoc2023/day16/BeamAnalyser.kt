@@ -38,47 +38,34 @@ class BeamAnalyser {
             mirrors.associateBy(Mirror::pos)
         )
 
-        val beams = mutableMapOf(
-            UUID.randomUUID().let {
-                it to Beam(
-                    it,
+        val unfinishedBeams = LinkedList(
+            listOf(
+                Beam(
+                    UUID.randomUUID(),
                     arrayListOf(
                         Vec2(-1, 0)
                     ),
                     RIGHT
                 )
-            }
+            )
         )
+        val finishedBeams = LinkedList<Beam>()
 
         val beamHistory = mutableSetOf(
             BeamHistory(Vec2(-1, 0), RIGHT)
         )
 
-        while (!beams.values.all { it.isFinished(cave) }) {
-            val updatedBeams = beams.values
-                .flatMap { it.move(cave, beamHistory) }
-                .associateBy { it.id }
-
-            beams += updatedBeams
-
-            beamHistory += beams
-                .values
-                .map { BeamHistory(it.positions.last(), it.currDirection) }
+        while (unfinishedBeams.isNotEmpty()) {
+            val beam = unfinishedBeams.poll()
+            beam.project(
+                cave,
+                beamHistory,
+                unfinishedBeams
+            )
+            finishedBeams += beam
         }
 
-        val energised = beams
-            .values
-            .flatMap { it.energisedTiles(cave) }
-            .toSet()
-
-        println((cave.minY..cave.maxY).joinToString("\n") { y ->
-            (cave.minX..cave.maxX).joinToString("") { x ->
-                if (Vec2(x, y) in energised) "#" else "."
-            }
-        } + "\n")
-
-        return beams
-            .values
+        return finishedBeams
             .flatMap { it.energisedTiles(cave) }
             .toSet()
             .size

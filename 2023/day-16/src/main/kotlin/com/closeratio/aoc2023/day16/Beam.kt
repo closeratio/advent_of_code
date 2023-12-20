@@ -12,34 +12,35 @@ class Beam(
 
     private var retreading: Boolean = false
 
-    fun move(
+    fun project(
         cave: Cave,
-        beamHistory: Set<BeamHistory>
-    ): Set<Beam> {
-        if (isFinished(cave)) {
-            return setOf(this)
-        }
+        beamHistory: MutableSet<BeamHistory>,
+        beams: MutableList<Beam>
+    ) {
+        while (!isFinished(cave)) {
+            val last = positions.last()
 
-        val last = positions.last()
+            val next = when (currDirection) {
+                UP -> last.up()
+                DOWN -> last.down()
+                RIGHT -> last.right()
+                LEFT -> last.left()
+            }
 
-        val next = when (currDirection) {
-            UP -> last.up()
-            DOWN -> last.down()
-            RIGHT -> last.right()
-            LEFT -> last.left()
-        }
+            val history = BeamHistory(next, currDirection)
+            if (history in beamHistory) {
+                retreading = true
+            } else {
+                beamHistory += history
+                positions += next
 
-        if (BeamHistory(next, currDirection) in beamHistory) {
-            retreading = true
-            return setOf(this)
-        }
-
-        positions += next
-
-        return if (next in cave.mirrors) {
-            cave.mirrors.getValue(next).reflect(this)
-        } else {
-            setOf(this)
+                if (next in cave.mirrors) {
+                    val additionalBeam = cave.mirrors.getValue(next).reflect(this)
+                    if (additionalBeam != null) {
+                        beams.add(additionalBeam)
+                    }
+                }
+            }
         }
     }
 

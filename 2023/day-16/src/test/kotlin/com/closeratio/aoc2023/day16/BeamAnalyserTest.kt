@@ -30,7 +30,7 @@ class BeamAnalyserTest {
             resourceLoader.loadResourceLines("/2023_day_16_input.txt"),
         )
 
-        assertThat(result).isNotEqualTo(6187)
+        assertThat(result).isEqualTo(6902)
     }
 
 }
