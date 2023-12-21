@@ -33,4 +33,13 @@ class BeamAnalyserTest {
         assertThat(result).isEqualTo(6902)
     }
 
+    @Test
+    fun computeOptimalDirection_returnsExpectedValue() {
+        val result = beamAnalyser.computeOptimalDirection(
+            resourceLoader.loadResourceLines("/test_input.txt")
+        )
+
+        assertThat(result).isEqualTo(51)
+    }
+
 }

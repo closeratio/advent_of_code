@@ -18,7 +18,11 @@ class Aoc2023Day16Runner(
         )
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        beamAnalyser.computeOptimalDirection(
+            resourceLoader.loadResourceLines("/2023_day_16_input.txt")
+        )
+    }
 
 
 }
