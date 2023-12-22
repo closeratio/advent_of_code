@@ -6,18 +6,18 @@ import kotlin.Long.Companion.MAX_VALUE
 
 data class Path(
     val start: Vec2,
-    val moves: Set<Move>,
+    val moves: Map<Vec2, Move>,
     val heatLossTotal: Long
 ) {
 
-    private val positions = linkedSetOf(start) + moves.map(Move::pos).toSet()
-    val movesList = moves.toList()
-
-    fun calculateNextPaths(heatmap: Heatmap): List<Path> = (positions.lastOrNull() ?: start)
+    fun calculateNextPaths(
+        heatmap: Heatmap,
+        bestMap: Map<Move, Long>
+    ): List<Path> = (moves.values.lastOrNull()?.pos ?: start)
         .immediatelyAdjacent()
-        .filter { it !in positions }
+        .filter { it !in moves }
         .map {
-            val lastMove = movesList.lastOrNull()
+            val lastMove = moves.values.lastOrNull()
             val lastPos = lastMove?.pos ?: start
             val direction = when (it) {
                 lastPos.left() -> LEFT
@@ -34,20 +34,22 @@ data class Path(
 
             Path(
                 start,
-                moves + Move(
+                moves + (it to Move(
                     it,
                     direction,
                     directionCount
-                ),
+                )),
                 heatLossTotal + heatmap.getOrDefault(it, MAX_VALUE)
             )
         }
-        .filter { it.isValid(heatmap) }
+        .filter { it.isValid(heatmap, bestMap) }
 
     private fun isValid(
-        heatmap: Heatmap
+        heatmap: Heatmap,
+        bestMap: Map<Move, Long>
     ): Boolean {
-        if (movesList.last().pos.x !in heatmap.xRange || movesList.last().pos.y !in heatmap.yRange) {
+        val last = moves.values.last()
+        if (last.pos.x !in heatmap.xRange || last.pos.y !in heatmap.yRange) {
             return false
         }
 
@@ -55,7 +57,11 @@ data class Path(
             return true
         }
 
-        return movesList.last().directionCount < 4
+        if (last.directionCount > 3) {
+            return false
+        }
+
+        return heatLossTotal < bestMap.getOrDefault(last, MAX_VALUE)
     }
 
 }

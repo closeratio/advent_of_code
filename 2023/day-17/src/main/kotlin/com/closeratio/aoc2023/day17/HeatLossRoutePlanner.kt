@@ -2,7 +2,6 @@ package com.closeratio.aoc2023.day17
 
 import com.closeratio.aoc.common.math.Vec2
 import com.closeratio.aoc.common.math.Vec2.Companion.ZERO
-import com.closeratio.aoc2023.day17.Direction.*
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -26,48 +25,30 @@ class HeatLossRoutePlanner {
         val heatmap = parseHeatmap(lines)
         val goal = Vec2(heatmap.maxX, heatmap.maxY)
 
+        val bestMap = mutableMapOf<Move, Long>()
         val openPaths = PriorityQueue(Comparator.comparing(Path::heatLossTotal))
         openPaths.addAll(
             Path(
                 ZERO,
-                emptySet(),
+                emptyMap(),
                 0
-            ).calculateNextPaths(heatmap)
+            ).calculateNextPaths(heatmap, bestMap)
         )
-
-        val bestMap = mutableMapOf<Move, Long>()
 
         while (openPaths.isNotEmpty()) {
             val path = openPaths.poll()
-            val move = path.movesList.last()
+            val move = path.moves.values.last()
             if (bestMap.getOrDefault(move, Long.MAX_VALUE) < path.heatLossTotal) {
                 continue
             }
 
             bestMap[move] = path.heatLossTotal
 
-            if (path.moves.last().pos == goal) {
-                val moveMap = path.moves.associateBy(Move::pos)
-
-                println((heatmap.minY..heatmap.maxY).joinToString("\n") { y ->
-                    (heatmap.minX..heatmap.maxX).joinToString("") { x ->
-                        val pos = Vec2(x, y)
-                        if (pos in moveMap) {
-                            when (moveMap.getValue(pos).direction) {
-                                UP -> "^"
-                                DOWN -> "v"
-                                LEFT -> "<"
-                                RIGHT -> ">"
-                            }
-                        } else {
-                            heatmap.getValue(pos).toString()
-                        }
-                    }
-                })
+            if (move.pos == goal) {
                 return path.heatLossTotal
             }
 
-            openPaths += path.calculateNextPaths(heatmap)
+            openPaths += path.calculateNextPaths(heatmap, bestMap)
         }
 
         throw IllegalStateException("Unable to find path")
