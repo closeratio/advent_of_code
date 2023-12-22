@@ -5,19 +5,40 @@ import com.closeratio.aoc2023.day17.Direction.*
 import kotlin.Long.Companion.MAX_VALUE
 
 data class Path(
-    val positions: Set<Vec2>,
+    val start: Vec2,
+    val moves: Set<Move>,
     val heatLossTotal: Long
 ) {
 
-    private val positionsList = positions.toList()
+    private val positions = linkedSetOf(start) + moves.map(Move::pos).toSet()
+    val movesList = moves.toList()
 
-    fun calculateNextPaths(heatmap: Heatmap): List<Path> = positions
-        .last()
+    fun calculateNextPaths(heatmap: Heatmap): List<Path> = (positions.lastOrNull() ?: start)
         .immediatelyAdjacent()
         .filter { it !in positions }
         .map {
+            val lastMove = movesList.lastOrNull()
+            val lastPos = lastMove?.pos ?: start
+            val direction = when (it) {
+                lastPos.left() -> LEFT
+                lastPos.right() -> RIGHT
+                lastPos.up() -> UP
+                lastPos.down() -> DOWN
+                else -> throw IllegalArgumentException("Unknown transition: $lastPos -> $it")
+            }
+            val directionCount = if (lastMove?.direction == direction) {
+                lastMove.directionCount + 1
+            } else {
+                1
+            }
+
             Path(
-                positions + it,
+                start,
+                moves + Move(
+                    it,
+                    direction,
+                    directionCount
+                ),
                 heatLossTotal + heatmap.getOrDefault(it, MAX_VALUE)
             )
         }
@@ -26,75 +47,15 @@ data class Path(
     private fun isValid(
         heatmap: Heatmap
     ): Boolean {
-        if (positionsList.last().x !in heatmap.xRange || positionsList.last().y !in heatmap.yRange) {
+        if (movesList.last().pos.x !in heatmap.xRange || movesList.last().pos.y !in heatmap.yRange) {
             return false
         }
 
-        if (positions.size <= 3) {
+        if (moves.size < 3) {
             return true
         }
 
-        return positionsList
-            .takeLast(5)
-            .windowed(2)
-            .map { (first, second) -> direction(first, second) }
-            .toSet()
-            .size > 1
+        return movesList.last().directionCount < 4
     }
 
-    fun searchState(
-        heatmap: Heatmap
-    ): SearchState {
-        val last = positionsList.last()
-
-        val direction = if (positions.size == 1) RIGHT else direction(
-            positionsList.takeLast(2).first(),
-            last
-        )
-
-        var remainingSteps = 0L
-        var currPath = nextInSameDirection(direction, heatmap)
-        while (currPath?.isValid(heatmap) == true) {
-            remainingSteps++
-            currPath = currPath.nextInSameDirection(direction, heatmap)
-        }
-
-        return SearchState(
-            last,
-            direction,
-            remainingSteps
-        )
-    }
-
-    private fun direction(
-        first: Vec2,
-        second: Vec2
-    ): Direction = when (second) {
-        first.left() -> LEFT
-        first.right() -> RIGHT
-        first.up() -> UP
-        first.down() -> DOWN
-        else -> throw IllegalArgumentException("Unknown transition: $first -> $second")
-    }
-
-    private fun nextInSameDirection(
-        direction: Direction,
-        heatmap: Heatmap
-    ): Path? {
-        val next = when (direction) {
-            UP -> positionsList.last().up()
-            RIGHT -> positionsList.last().right()
-            DOWN -> positionsList.last().down()
-            LEFT -> positionsList.last().left()
-        }
-
-        if (next in positions) {
-            return null
-        }
-
-        return Path(
-            positions + next,
-            heatLossTotal + heatmap.getOrDefault(positionsList.last(), MAX_VALUE)
-        )
-    }
 }

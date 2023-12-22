@@ -2,6 +2,7 @@ package com.closeratio.aoc2023.day17
 
 import com.closeratio.aoc.common.math.Vec2
 import com.closeratio.aoc.common.math.Vec2.Companion.ZERO
+import com.closeratio.aoc2023.day17.Direction.*
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -26,21 +27,43 @@ class HeatLossRoutePlanner {
         val goal = Vec2(heatmap.maxX, heatmap.maxY)
 
         val openPaths = PriorityQueue(Comparator.comparing(Path::heatLossTotal))
-        openPaths.add(
-            Path(linkedSetOf(ZERO), heatmap.getValue(ZERO))
+        openPaths.addAll(
+            Path(
+                ZERO,
+                emptySet(),
+                0
+            ).calculateNextPaths(heatmap)
         )
 
-        val bestMap = mutableMapOf<SearchState, Long>()
+        val bestMap = mutableMapOf<Move, Long>()
 
         while (openPaths.isNotEmpty()) {
             val path = openPaths.poll()
-            val searchState = path.searchState(heatmap)
-            if (bestMap.getOrDefault(searchState, Long.MAX_VALUE) < path.heatLossTotal) {
+            val move = path.movesList.last()
+            if (bestMap.getOrDefault(move, Long.MAX_VALUE) < path.heatLossTotal) {
                 continue
             }
-            bestMap[searchState] = path.heatLossTotal
 
-            if (path.positions.last() == goal) {
+            bestMap[move] = path.heatLossTotal
+
+            if (path.moves.last().pos == goal) {
+                val moveMap = path.moves.associateBy(Move::pos)
+
+                println((heatmap.minY..heatmap.maxY).joinToString("\n") { y ->
+                    (heatmap.minX..heatmap.maxX).joinToString("") { x ->
+                        val pos = Vec2(x, y)
+                        if (pos in moveMap) {
+                            when (moveMap.getValue(pos).direction) {
+                                UP -> "^"
+                                DOWN -> "v"
+                                LEFT -> "<"
+                                RIGHT -> ">"
+                            }
+                        } else {
+                            heatmap.getValue(pos).toString()
+                        }
+                    }
+                })
                 return path.heatLossTotal
             }
 
