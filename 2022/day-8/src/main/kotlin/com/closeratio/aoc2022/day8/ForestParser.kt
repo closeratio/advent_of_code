@@ -13,7 +13,7 @@ class ForestParser(
         .loadResourceLines(path)
         .mapIndexed { y, line ->
             line.mapIndexed { x, char ->
-                Tree(Vec2(x.toLong(), y.toLong()), char.toString().toInt())
+                Tree(Vec2(x, y), char.toString().toInt())
             }
         }
         .let(::Forest)

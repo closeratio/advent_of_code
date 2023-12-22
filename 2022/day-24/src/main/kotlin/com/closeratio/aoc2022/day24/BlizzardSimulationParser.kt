@@ -17,7 +17,7 @@ class BlizzardSimulationParser(
             val walls = mutableSetOf<Vec2>()
 
             chars.forEachIndexed { x, char ->
-                val pos = Vec2(x.toLong(), y.toLong())
+                val pos = Vec2(x, y)
                 when (char) {
                     '#' -> walls += pos
                     '>' -> blizzards += Blizzard(pos, RIGHT)

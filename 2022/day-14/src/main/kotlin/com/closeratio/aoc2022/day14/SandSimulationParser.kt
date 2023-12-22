@@ -11,7 +11,7 @@ class SandSimulationParser(
 
     fun parseRocks(line: String): Set<Vec2> = line
         .split(" -> ")
-        .map { vecString -> vecString.split(",").let { (x, y) -> Vec2(x.toLong(), y.toLong()) } }
+        .map { vecString -> vecString.split(",").let { (x, y) -> Vec2(x, y) } }
         .windowed(2) { (first, second) -> first.lineTo(second) }
         .flatten()
         .toSet()

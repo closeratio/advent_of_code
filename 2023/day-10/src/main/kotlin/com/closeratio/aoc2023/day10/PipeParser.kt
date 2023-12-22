@@ -13,7 +13,7 @@ class PipeParser {
         // Get pipes that are easy to identify
         val pipes = lines.flatMapIndexed { y, line ->
             line.mapIndexedNotNull { x, char ->
-                val pos = Vec2(x.toLong(), y.toLong())
+                val pos = Vec2(x, y)
                 when (char) {
                     '|' -> Pipe(pos, VERTICAL)
                     '-' -> Pipe(pos, HORIZONTAL)
@@ -29,7 +29,7 @@ class PipeParser {
         // Find starting pos
         val startPos = lines.flatMapIndexed { y, line ->
             line.mapIndexedNotNull { x, char ->
-                val pos = Vec2(x.toLong(), y.toLong())
+                val pos = Vec2(x, y)
                 when (char) {
                     'S' -> pos
                     else -> null

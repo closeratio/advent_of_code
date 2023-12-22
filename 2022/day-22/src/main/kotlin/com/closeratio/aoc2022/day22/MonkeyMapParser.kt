@@ -14,7 +14,7 @@ class MonkeyMapParser(
     fun parseMap(lines: List<String>): Map<Vec2, Tile> = lines
         .flatMapIndexed { y, line ->
             line.mapIndexed { x, char ->
-                val pos = Vec2(x.toLong(), y.toLong())
+                val pos = Vec2(x, y)
                 when (char) {
                     '.' -> EmptySpace(pos)
                     '#' -> Wall(pos)

@@ -14,7 +14,7 @@ class HeightMapParser(
         .flatMapIndexed { y, line ->
             line.mapIndexed { x, char ->
                 Tile(
-                    Vec2(x.toLong(), y.toLong()),
+                    Vec2(x, y),
                     char.toString()
                 )
             }

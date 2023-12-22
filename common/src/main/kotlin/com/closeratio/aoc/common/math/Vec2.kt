@@ -7,6 +7,17 @@ data class Vec2(
     val x: Long,
     val y: Long
 ) {
+
+    constructor(x: Int, y: Int) : this(
+        x.toLong(),
+        y.toLong()
+    )
+
+    constructor(x: String, y: String) : this(
+        x.toLong(),
+        y.toLong()
+    )
+
     companion object {
         val ZERO: Vec2 = Vec2(0, 0)
     }
@@ -47,8 +58,8 @@ data class Vec2(
         val xDiff = other.x - x
         val yDiff = other.y - y
 
-        if (xDiff.absoluteValue != 0L && yDiff.absoluteValue != 0L) {
-            throw IllegalArgumentException("Line must be horizontal or vertical")
+        require(xDiff.absoluteValue != 0L && yDiff.absoluteValue != 0L) {
+            "Line must be horizontal or vertical"
         }
 
         return if (xDiff == 0L) {

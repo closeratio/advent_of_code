@@ -10,7 +10,14 @@ class HeatLossRoutePlanner {
 
     private fun parseHeatmap(
         lines: List<String>
-    ): Heatmap = TODO()
+    ): Heatmap = lines
+        .flatMapIndexed { y, line ->
+            line.mapIndexed { x, char ->
+                Vec2(x, y) to char.toString().toLong()
+            }
+        }
+        .toMap()
+        .let(::Heatmap)
 
     fun calculateMinimalHeatLoss(
         lines: List<String>
@@ -18,15 +25,20 @@ class HeatLossRoutePlanner {
         val heatmap = parseHeatmap(lines)
         val goal = Vec2(heatmap.maxX, heatmap.maxY)
 
-        val closedPaths = mutableSetOf<Path>()
         val openPaths = PriorityQueue(Comparator.comparing(Path::heatLossTotal))
         openPaths.add(
             Path(linkedSetOf(ZERO), heatmap.getValue(ZERO))
         )
 
+        val bestMap = mutableMapOf<SearchState, Long>()
+
         while (openPaths.isNotEmpty()) {
             val path = openPaths.poll()
-            closedPaths += path
+            val searchState = path.searchState(heatmap)
+            if (bestMap.getOrDefault(searchState, Long.MAX_VALUE) < path.heatLossTotal) {
+                continue
+            }
+            bestMap[searchState] = path.heatLossTotal
 
             if (path.positions.last() == goal) {
                 return path.heatLossTotal

@@ -14,7 +14,7 @@ class RockSimulationParser {
 
         lines.forEachIndexed { y, line ->
             line.forEachIndexed { x, char ->
-                val pos = Vec2(x.toLong(), y.toLong())
+                val pos = Vec2(x, y)
                 when (char) {
                     '#' -> cubeRocks += pos
                     'O' -> roundRocks += pos

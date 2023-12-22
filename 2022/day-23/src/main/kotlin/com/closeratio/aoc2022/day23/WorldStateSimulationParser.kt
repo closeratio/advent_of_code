@@ -18,7 +18,7 @@ class WorldStateSimulationParser(
         .flatMapIndexed { y, line ->
             line.mapIndexedNotNull { x, char ->
                 when (char) {
-                    '#' -> Vec2(x.toLong(), y.toLong())
+                    '#' -> Vec2(x, y)
                     else -> null
                 }
             }

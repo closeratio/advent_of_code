@@ -9,7 +9,7 @@ class SchematicAnalyser {
     private fun parseSchematic(input: List<String>): EngineSchematic = input
         .flatMapIndexed { y, line ->
             line.mapIndexed { x, char ->
-                Vec2(x.toLong(), y.toLong()) to char.toString()
+                Vec2(x, y) to char.toString()
             }
         }
         .toMap()

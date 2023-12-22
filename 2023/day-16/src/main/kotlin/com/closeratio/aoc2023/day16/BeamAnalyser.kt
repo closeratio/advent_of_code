@@ -14,7 +14,7 @@ class BeamAnalyser {
     ): Set<Mirror> = lines
         .flatMapIndexed { y, line ->
             line.mapIndexedNotNull { x, char ->
-                val pos = Vec2(x.toLong(), y.toLong())
+                val pos = Vec2(x, y)
                 when (char) {
                     '-' -> Mirror(pos, HORIZONTAL)
                     '|' -> Mirror(pos, VERTICAL)
