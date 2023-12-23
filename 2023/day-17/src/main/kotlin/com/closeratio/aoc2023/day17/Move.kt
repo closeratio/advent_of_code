@@ -8,19 +8,20 @@ class Move(
     val pos: Vec2,
     val direction: Direction,
     val directionCount: Long,
-    val heatLossTotal: Long,
-    val parent: Move?
+    val heatLossTotal: Long
 ) {
 
     fun next(
         heatmap: Heatmap,
         bestMap: Map<Move, Long>,
-        visited: Set<Move>
+        visited: Set<Move>,
+        minConsecutive: Long,
+        maxConsecutive: Long
     ): List<Move> = when (direction) {
-        UP -> listOf(LEFT, UP, RIGHT)
-        RIGHT -> listOf(UP, RIGHT, DOWN)
-        DOWN -> listOf(RIGHT, DOWN, LEFT)
-        LEFT -> listOf(DOWN, LEFT, UP)
+        UP -> if (directionCount >= minConsecutive) listOf(LEFT, UP, RIGHT) else listOf(UP)
+        RIGHT -> if (directionCount >= minConsecutive) listOf(UP, RIGHT, DOWN) else listOf(RIGHT)
+        DOWN -> if (directionCount >= minConsecutive) listOf(RIGHT, DOWN, LEFT) else listOf(DOWN)
+        LEFT -> if (directionCount >= minConsecutive) listOf(DOWN, LEFT, UP) else listOf(LEFT)
     }
         .map { newDirection ->
             val newPos = when (newDirection) {
@@ -34,11 +35,10 @@ class Move(
                 newPos,
                 newDirection,
                 if (direction == newDirection) directionCount + 1 else 1,
-                heatLossTotal + heatmap.getOrDefault(newPos, MAX_VALUE),
-                this
+                heatLossTotal + heatmap.getOrDefault(newPos, MAX_VALUE)
             )
         }
-        .filter { it.directionCount < 4 }
+        .filter { it.directionCount <= maxConsecutive }
         .filter { it.pos in heatmap }
         .filter { it.heatLossTotal < bestMap.getOrDefault(it, MAX_VALUE) }
         .filter { it !in visited }
@@ -66,6 +66,9 @@ class Move(
     override fun toString(): String {
         return "Move(pos=$pos, direction=$direction, directionCount=$directionCount, heatLossTotal=$heatLossTotal)"
     }
+
+    fun satisfiesConstraints(maxConsecutive: Long, minConsecutive: Long): Boolean =
+        directionCount in minConsecutive..maxConsecutive
 
 
 }

@@ -21,7 +21,9 @@ class HeatLossRoutePlanner {
         .let(::Heatmap)
 
     fun calculateMinimalHeatLoss(
-        lines: List<String>
+        lines: List<String>,
+        minConsecutive: Long = 0,
+        maxConsecutive: Long = 3
     ): Long {
         val heatmap = parseHeatmap(lines)
         val goal = Vec2(heatmap.maxX, heatmap.maxY)
@@ -34,9 +36,8 @@ class HeatLossRoutePlanner {
                 ZERO,
                 RIGHT,
                 0,
-                0,
-                null
-            ).next(heatmap, bestMap, closedMoves)
+                0
+            ).next(heatmap, bestMap, closedMoves, minConsecutive, maxConsecutive)
         )
 
         while (openMoves.isNotEmpty()) {
@@ -47,11 +48,11 @@ class HeatLossRoutePlanner {
 
             bestMap[move] = move.heatLossTotal
 
-            if (move.pos == goal) {
+            if (move.pos == goal && move.satisfiesConstraints(maxConsecutive, minConsecutive)) {
                 return move.heatLossTotal
             }
 
-            val nextMoves = move.next(heatmap, bestMap, closedMoves)
+            val nextMoves = move.next(heatmap, bestMap, closedMoves, minConsecutive, maxConsecutive)
             closedMoves += nextMoves
             openMoves += nextMoves
         }

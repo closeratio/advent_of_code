@@ -18,7 +18,13 @@ class Aoc2023Day17Runner(
         )
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        heatLossRoutePlanner.calculateMinimalHeatLoss(
+            resourceLoader.loadResourceLines("/2023_day_17_input.txt"),
+            4,
+            10
+        )
+    }
 
 
 }
