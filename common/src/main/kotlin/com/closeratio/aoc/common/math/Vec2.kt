@@ -58,8 +58,8 @@ data class Vec2(
         val xDiff = other.x - x
         val yDiff = other.y - y
 
-        require(xDiff.absoluteValue != 0L && yDiff.absoluteValue != 0L) {
-            "Line must be horizontal or vertical"
+        if (xDiff.absoluteValue != 0L && yDiff.absoluteValue != 0L) {
+            throw IllegalArgumentException("Line must be horizontal or vertical")
         }
 
         return if (xDiff == 0L) {
