@@ -22,7 +22,6 @@ class Move(
         DOWN -> listOf(RIGHT, DOWN, LEFT)
         LEFT -> listOf(DOWN, LEFT, UP)
     }
-        .asSequence()
         .map { newDirection ->
             val newPos = when (newDirection) {
                 LEFT -> pos.left()
@@ -43,7 +42,6 @@ class Move(
         .filter { it.pos in heatmap }
         .filter { it.heatLossTotal < bestMap.getOrDefault(it, MAX_VALUE) }
         .filter { it !in visited }
-        .toList()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
