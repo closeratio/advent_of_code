@@ -1,6 +1,7 @@
 package com.closeratio.aoc2023.day17
 
 import com.closeratio.aoc.common.math.Vec2
+import com.closeratio.aoc2023.day17.Direction.*
 import kotlin.Long.Companion.MAX_VALUE
 
 class Move(
@@ -15,15 +16,19 @@ class Move(
         heatmap: Heatmap,
         bestMap: Map<Move, Long>,
         visited: Set<Move>
-    ): List<Move> = pos
-        .immediatelyAdjacent()
-        .map { newPos ->
-            val newDirection = when (newPos) {
-                pos.left() -> Direction.LEFT
-                pos.right() -> Direction.RIGHT
-                pos.up() -> Direction.UP
-                pos.down() -> Direction.DOWN
-                else -> throw IllegalArgumentException("Unknown transition: $pos -> $newPos")
+    ): List<Move> = when (direction) {
+        UP -> listOf(LEFT, UP, RIGHT)
+        RIGHT -> listOf(UP, RIGHT, DOWN)
+        DOWN -> listOf(RIGHT, DOWN, LEFT)
+        LEFT -> listOf(DOWN, LEFT, UP)
+    }
+        .asSequence()
+        .map { newDirection ->
+            val newPos = when (newDirection) {
+                LEFT -> pos.left()
+                RIGHT -> pos.right()
+                UP -> pos.up()
+                DOWN -> pos.down()
             }
 
             Move(
@@ -34,11 +39,11 @@ class Move(
                 this
             )
         }
-        .filter { it !in visited }
+        .filter { it.directionCount < 4 }
         .filter { it.pos in heatmap }
         .filter { it.heatLossTotal < bestMap.getOrDefault(it, MAX_VALUE) }
-        .filter { it.directionCount < 4 }
-        .filter { it.pos != it.parent?.parent?.pos } // Prevents "reversing"
+        .filter { it !in visited }
+        .toList()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
