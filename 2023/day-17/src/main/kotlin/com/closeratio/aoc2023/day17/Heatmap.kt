@@ -16,4 +16,6 @@ class Heatmap(
     fun getValue(pos: Vec2): Long = map.getValue(pos)
     fun getOrDefault(pos: Vec2, default: Long) = map.getOrDefault(pos, default)
 
+    operator fun contains(pos: Vec2): Boolean = pos.x in xRange && pos.y in yRange
+
 }
