@@ -24,4 +24,14 @@ class DigAnalyserTest {
         assertThat(result).isEqualTo(62)
     }
 
+    @Test
+    fun computeDigArea_hexString_returnsExpectedValue() {
+//        val result = digAnalyser.computeDigArea(
+//            resourceLoader.loadResourceLines("/test_input.txt"),
+//            true
+//        )
+//
+//        assertThat(result).isEqualTo(952_408_144_115)
+    }
+
 }

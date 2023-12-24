@@ -10,9 +10,10 @@ class DigAnalyser(
 ) {
 
     fun computeDigArea(
-        lines: List<String>
+        lines: List<String>,
+        useHexInstructions: Boolean = false
     ): Long {
-        val digSite = digSiteParser.parseDigSite(lines)
+        val digSite = digSiteParser.parseDigSite(lines, useHexInstructions)
 
         val knownInternalTiles = mutableSetOf<Vec2>()
         val knownExternalTiles = mutableSetOf<Vec2>()
