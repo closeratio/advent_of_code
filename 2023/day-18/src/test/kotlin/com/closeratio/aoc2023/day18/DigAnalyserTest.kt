@@ -25,13 +25,22 @@ class DigAnalyserTest {
     }
 
     @Test
+    fun computeDigArea_realData_returnsExpectedValue() {
+        val result = digAnalyser.computeDigArea(
+            resourceLoader.loadResourceLines("/2023_day_18_input.txt")
+        )
+
+        assertThat(result).isEqualTo(47675)
+    }
+
+    @Test
     fun computeDigArea_hexString_returnsExpectedValue() {
-//        val result = digAnalyser.computeDigArea(
-//            resourceLoader.loadResourceLines("/test_input.txt"),
-//            true
-//        )
-//
-//        assertThat(result).isEqualTo(952_408_144_115)
+        val result = digAnalyser.computeDigArea(
+            resourceLoader.loadResourceLines("/test_input.txt"),
+            true
+        )
+
+        assertThat(result).isEqualTo(952_408_144_115)
     }
 
 }

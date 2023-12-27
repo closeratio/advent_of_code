@@ -18,7 +18,12 @@ class Aoc2023Day18Runner(
         )
     }
 
-    override fun part2Function() = null
+    override fun part2Function(): () -> Long = {
+        digAnalyser.computeDigArea(
+            resourceLoader.loadResourceLines("/2023_day_18_input.txt"),
+            true
+        )
+    }
 
 
 }

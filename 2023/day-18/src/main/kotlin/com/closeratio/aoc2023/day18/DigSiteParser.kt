@@ -1,6 +1,7 @@
 package com.closeratio.aoc2023.day18
 
 import com.closeratio.aoc.common.math.Vec2
+import com.closeratio.aoc.common.math.Vec2.Companion.ZERO
 import com.closeratio.aoc2023.day18.Direction.*
 import org.springframework.stereotype.Component
 
@@ -41,23 +42,17 @@ class DigSiteParser {
     fun parseDigSite(
         lines: List<String>,
         useHexInstructions: Boolean
-    ): DigSite {
-        var currPos = Vec2.ZERO
-        val trenchTiles = mutableSetOf(currPos)
-        lines.map { parseInstruction(it, useHexInstructions) }
-            .forEach { instruction ->
-                (1..instruction.amount).forEach {
-                    currPos = when (instruction.direction) {
-                        UP -> currPos.up()
-                        DOWN -> currPos.down()
-                        LEFT -> currPos.left()
-                        RIGHT -> currPos.right()
-                    }
-                    trenchTiles += currPos
-                }
-            }
-
-        return DigSite(trenchTiles)
-    }
+    ): DigSite = lines.map { parseInstruction(it, useHexInstructions) }
+        .fold(listOf(ZERO)) { acc, curr ->
+            val (dir, amount) = curr
+            val last = acc.last()
+            acc + (last + when (dir) {
+                UP -> Vec2(0, -amount)
+                DOWN -> Vec2(0, amount)
+                LEFT -> Vec2(-amount, 0)
+                RIGHT -> Vec2(amount, 0)
+            })
+        }
+        .let(::DigSite)
 
 }

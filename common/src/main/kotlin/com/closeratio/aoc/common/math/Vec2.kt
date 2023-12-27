@@ -72,5 +72,6 @@ data class Vec2(
     fun scale(value: Long): Vec2 = Vec2(x * value, y * value)
 
     operator fun times(value: Long) = scale(value)
+    operator fun plus(other: Vec2): Vec2 = Vec2(x + other.x, y + other.y)
 
 }
