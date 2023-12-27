@@ -2,8 +2,8 @@ package com.closeratio.aoc2023.day19.rule
 
 import com.closeratio.aoc2023.day19.Part
 import com.closeratio.aoc2023.day19.outcome.Outcome
-import com.closeratio.aoc2023.day19.rule.ComparisonRule.Comparison.GREATER_THAN
-import com.closeratio.aoc2023.day19.rule.ComparisonRule.Comparison.LESS_THAN
+import com.closeratio.aoc2023.day19.rule.Comparison.GREATER_THAN
+import com.closeratio.aoc2023.day19.rule.Comparison.LESS_THAN
 
 data class ComparisonRule(
     private val partField: String,
@@ -11,11 +11,6 @@ data class ComparisonRule(
     private val value: Long,
     private val outcome: Outcome
 ) : Rule() {
-
-    enum class Comparison {
-        GREATER_THAN,
-        LESS_THAN
-    }
 
     override fun check(part: Part): Outcome? {
         val fieldValue = when (partField) {
@@ -34,3 +29,4 @@ data class ComparisonRule(
         return if (passesCheck) outcome else null
     }
 }
+
