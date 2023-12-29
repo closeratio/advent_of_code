@@ -5,9 +5,15 @@ import com.closeratio.aoc2023.day19.outcome.Outcome
 import com.closeratio.aoc2023.day19.outcome.TerminalOutcome
 
 class TerminalRule(
-    private val result: Boolean
+    val result: Boolean
 ) : Rule() {
 
     override fun check(part: Part): Outcome = TerminalOutcome(result)
+
+    override fun updateFilter(
+        filter: Filter,
+        getOutstandingRangeFilter: () -> Filter,
+        updateOutsideRangeFilter: (Filter) -> Unit
+    ): Filter = filter
 }
 

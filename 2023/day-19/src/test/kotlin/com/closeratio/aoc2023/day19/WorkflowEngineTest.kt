@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
 @AocTest
-class WorkflowEnginerParser {
+class WorkflowEngineTest {
 
     @Autowired
     private lateinit var resourceLoader: ResourceLoader
@@ -22,6 +22,15 @@ class WorkflowEnginerParser {
         )
 
         assertThat(result).isEqualTo(19114)
+    }
+
+    @Test
+    fun sumTotalCombinations_returnsExpectedValue() {
+        val result = workflowEngine.sumTotalCombinations(
+            resourceLoader.loadResourceText("/test_input.txt")
+        )
+
+//        assertThat(result).isEqualTo(167_409_079_868_000)
     }
 
 }
