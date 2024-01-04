@@ -9,11 +9,5 @@ data class WorkflowRule(
 ) : Rule() {
 
     override fun check(part: Part): Outcome = WorkflowOutcome(id)
-
-    override fun updateFilter(
-        filter: Filter,
-        getOutstandingRangeFilter: () -> Filter,
-        updateOutsideRangeFilter: (Filter) -> Unit
-    ): Filter = filter
 }
 

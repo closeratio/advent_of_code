@@ -2,7 +2,7 @@ package com.closeratio.aoc2023.day19.rule
 
 import size
 
-data class Filter(
+data class Ranges(
     val xRange: LongRange,
     val mRange: LongRange,
     val aRange: LongRange,
