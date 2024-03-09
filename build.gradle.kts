@@ -4,10 +4,10 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 val currentYear = 2023
 
 plugins {
-    id("org.springframework.boot") version "3.2.2" apply false
+    id("org.springframework.boot") version "3.2.3" apply false
     id("io.spring.dependency-management") version "1.1.4" apply false
-    kotlin("jvm") version "1.9.22" apply false
-    kotlin("plugin.spring") version "1.9.22" apply false
+    kotlin("jvm") version "1.9.23" apply false
+    kotlin("plugin.spring") version "1.9.23" apply false
 
     java
     `java-test-fixtures`
