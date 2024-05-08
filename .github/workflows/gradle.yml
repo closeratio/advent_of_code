@@ -23,11 +23,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Run tests with Gradle
-        uses: gradle/gradle-build-action@fe59895742b4f984530980e4f693943577526b61 # v3.2.0
+        uses: gradle/gradle-build-action@4c39dd82cd5e1ec7c6fa0173bb41b4b6bb3b86ff # v3.3.2
         with:
           arguments: test
       - name: Test Reporter
-        uses: dorny/test-reporter@v1.9.0
+        uses: dorny/test-reporter@v1.9.1
         if: success() || failure()
         with:
           name: JUnit Tests
