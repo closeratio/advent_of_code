@@ -1,7 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
-val currentYear = 2023
+val currentYear = 2024
 
 plugins {
     id("org.springframework.boot") version "3.4.0" apply false
@@ -63,9 +64,9 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions {
+        compilerOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "17"
+            jvmTarget = JvmTarget.JVM_17
         }
     }
 
