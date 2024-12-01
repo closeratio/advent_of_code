@@ -22,4 +22,11 @@ class LocationListProcessorTest {
         assertThat(result).isEqualTo(11)
     }
 
+    @Test
+    fun computeSimilarityScore() {
+        val result = locationListProcessor.computeSimilarityScore(resourceLoader.loadResourceLines("/test_input.txt"))
+
+        assertThat(result).isEqualTo(31)
+    }
+
 }

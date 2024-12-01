@@ -18,4 +18,9 @@ class Aoc2024Day1Runner(
         )
     }
 
+    override fun part2Function(): () -> Long = {
+        locationListProcessor.computeSimilarityScore(
+            resourceLoader.loadResourceLines("/input_day1.txt"),
+        )
+    }
 }
