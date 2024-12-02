@@ -10,9 +10,12 @@ class ReportProcessor {
         .map(String::toLong)
         .let(::Report)
 
-    fun countSafeReports(reports: List<String>): Long = reports
+    fun countSafeReports(
+        reports: List<String>,
+        useDampener: Boolean = false
+    ): Long = reports
         .map(::parseReport)
-        .filter(Report::isSafe)
+        .filter { it.isSafe(useDampener) }
         .size
         .toLong()
 

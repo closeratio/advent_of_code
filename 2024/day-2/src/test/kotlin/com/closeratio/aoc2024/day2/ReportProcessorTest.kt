@@ -22,4 +22,11 @@ class ReportProcessorTest {
         assertThat(result).isEqualTo(2)
     }
 
+    @Test
+    fun coundSafeReportsWithDampener() {
+        val result = reportProcessor.countSafeReports(resourceLoader.loadResourceLines("/test_input.txt"), true)
+
+        assertThat(result).isEqualTo(4)
+    }
+
 }

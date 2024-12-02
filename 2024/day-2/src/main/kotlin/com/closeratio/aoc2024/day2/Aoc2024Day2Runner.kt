@@ -17,4 +17,11 @@ class Aoc2024Day2Runner(
             resourceLoader.loadResourceLines("/2024_day_2_input.txt"),
         )
     }
+
+    override fun part2Function(): () -> Long = {
+        reportProcessor.countSafeReports(
+            resourceLoader.loadResourceLines("/2024_day_2_input.txt"),
+            true,
+        )
+    }
 }
