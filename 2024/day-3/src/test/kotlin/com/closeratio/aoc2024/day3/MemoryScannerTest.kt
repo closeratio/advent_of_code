@@ -22,4 +22,11 @@ class MemoryScannerTest {
         assertThat(result).isEqualTo(161)
     }
 
+    @Test
+    fun sumEnabledMulInstructions() {
+        val result = memoryScanner.sumEnabledMulInstructions(resourceLoader.loadResourceText("/test_input.txt"))
+
+        assertThat(result).isEqualTo(48)
+    }
+
 }
