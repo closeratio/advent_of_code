@@ -17,14 +17,14 @@ class MemoryScannerTest {
 
     @Test
     fun sumMulInstructions() {
-        val result = memoryScanner.sumMulInstructions(resourceLoader.loadResourceText("/test_input.txt"))
+        val result = memoryScanner.sumMulInstructions(resourceLoader.loadResourceText("/test_input_1.txt"))
 
         assertThat(result).isEqualTo(161)
     }
 
     @Test
     fun sumEnabledMulInstructions() {
-        val result = memoryScanner.sumEnabledMulInstructions(resourceLoader.loadResourceText("/test_input.txt"))
+        val result = memoryScanner.sumEnabledMulInstructions(resourceLoader.loadResourceText("/test_input_2.txt"))
 
         assertThat(result).isEqualTo(48)
     }

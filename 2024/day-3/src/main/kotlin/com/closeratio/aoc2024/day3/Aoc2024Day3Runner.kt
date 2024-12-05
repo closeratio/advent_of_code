@@ -17,4 +17,10 @@ class Aoc2024Day3Runner(
             resourceLoader.loadResourceText("/2024_day_3_input.txt"),
         )
     }
+
+    override fun part2Function(): () -> Long = {
+        memoryScanner.sumEnabledMulInstructions(
+            resourceLoader.loadResourceText("/2024_day_3_input.txt"),
+        )
+    }
 }
