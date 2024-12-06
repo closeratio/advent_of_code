@@ -17,4 +17,10 @@ class Aoc2024Day4Runner(
             resourceLoader.loadResourceLines("/2024_day_4_input.txt"),
         ).toLong()
     }
+
+    override fun part2Function(): () -> Long = {
+        xmasCounter.countXShapedMas(
+            resourceLoader.loadResourceLines("/2024_day_4_input.txt"),
+        ).toLong()
+    }
 }

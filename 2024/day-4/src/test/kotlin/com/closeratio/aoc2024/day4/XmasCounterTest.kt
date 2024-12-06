@@ -22,4 +22,11 @@ class XmasCounterTest {
         assertThat(result).isEqualTo(18)
     }
 
+    @Test
+    fun countXShapedMas() {
+        val result = xmasCounter.countXShapedMas(resourceLoader.loadResourceLines("/test_input_1.txt"))
+
+        assertThat(result).isEqualTo(9)
+    }
+
 }
