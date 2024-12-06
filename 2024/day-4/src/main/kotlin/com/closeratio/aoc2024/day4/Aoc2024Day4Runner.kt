@@ -10,7 +10,7 @@ class Aoc2024Day4Runner(
     private val xmasCounter: XmasCounter
 ) : Aoc2024Runner() {
 
-    override fun getDay(): Int = 3
+    override fun getDay(): Int = 4
 
     override fun part1Function(): () -> Long = {
         xmasCounter.countXmas(
