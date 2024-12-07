@@ -18,4 +18,10 @@ class Aoc2024Day6Runner(
         ).toLong()
     }
 
+    override fun part2Function(): () -> Long = {
+        guardSimulation.countObstructionPositionsForLoop(
+            resourceLoader.loadResourceLines("/2024_day_6_input.txt"),
+        ).toLong()
+    }
+
 }

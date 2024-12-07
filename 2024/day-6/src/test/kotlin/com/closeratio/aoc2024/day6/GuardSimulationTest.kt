@@ -22,4 +22,21 @@ class GuardSimulationTest {
         assertThat(result).isEqualTo(41)
     }
 
+    @Test
+    fun countObstructionPositionsForLoop() {
+        val result =
+            guardSimulation.countObstructionPositionsForLoop(resourceLoader.loadResourceLines("/test_input_1.txt"))
+
+        assertThat(result).isEqualTo(6)
+    }
+
+    @Test
+    fun countObstructionPositionsForLoop_actualInput() {
+        val result =
+            guardSimulation.countObstructionPositionsForLoop(resourceLoader.loadResourceLines("/2024_day_6_input.txt"))
+
+        assertThat(result).isLessThan(2023)
+        println(result)
+    }
+
 }

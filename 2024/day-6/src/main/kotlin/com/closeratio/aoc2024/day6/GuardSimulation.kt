@@ -28,8 +28,7 @@ class GuardSimulation {
                 when (char) {
                     '^' -> GuardState(
                         Vec2(x, y),
-                        UP,
-                        null
+                        UP
                     )
 
                     else -> null
@@ -38,30 +37,67 @@ class GuardSimulation {
         }
         .first()
 
-
     fun countDistinctPositions(
         input: List<String>
     ): Int {
         val obstructions = parseObstructions(input)
         val initialState = parseInitialState(input)
+
+        return countDistinctPositions(obstructions, initialState)!!
+    }
+
+    private fun countDistinctPositions(
+        obstructions: Set<Vec2>,
+        initialState: GuardState,
+    ): Int? {
+
         val maxX = obstructions.maxOf { it.x }
         val maxY = obstructions.maxOf { it.y }
 
+        val stateSet = mutableSetOf(initialState)
         var currentState = initialState
         while (currentState.position.x in 0..maxX && currentState.position.y in 0..maxY) {
             currentState = currentState.nextState(
                 obstructions
             )
+
+            if (currentState !in stateSet) {
+                stateSet += currentState
+            } else {
+                return null
+            }
         }
 
-        var rewindState = currentState.previousState
-        val positionSet = mutableSetOf<Vec2>()
-        while (rewindState != null) {
-            positionSet += rewindState.position
-            rewindState = rewindState.previousState
-        }
+        return stateSet
+            .map { it.position }
+            .toSet()
+            .size - 1
+    }
 
-        return positionSet.size
+    fun countObstructionPositionsForLoop(
+        input: List<String>
+    ): Int {
+        val obstructions = parseObstructions(input)
+        val initialState = parseInitialState(input)
+
+        val maxX = obstructions.maxOf { it.x }
+        val maxY = obstructions.maxOf { it.y }
+
+        return (0..maxY)
+            .flatMap { y ->
+                (0..maxX).map { x ->
+                    Vec2(x, y)
+                }
+            }
+            .filter { it !in obstructions }
+            .map { possibleObstruction ->
+                countDistinctPositions(
+                    obstructions + possibleObstruction,
+                    initialState
+                )
+            }
+            .filter { it == null }
+            .size
     }
 
 }
