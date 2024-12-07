@@ -8,9 +8,9 @@ class PrintQueueValidator {
 
     private val lineSep = lineSeparator()
 
-    fun sumValidMiddlePageNumbers(
+    private fun parseRulesAndQueues(
         text: String
-    ): Long {
+    ): Pair<List<OrderRule>, List<PrintQueue>> {
         val (ruleBlock, queueBlock) = text.split(lineSep + lineSep).map { it.trim() }
 
         val rules = ruleBlock
@@ -26,10 +26,24 @@ class PrintQueueValidator {
                 PrintQueue(it.split(",").map { it.toInt() })
             }
 
-        val validQueues = queues.filter { it.isValid(rules) }
+        return rules to queues
+    }
 
-        val middlePageNumbers = validQueues.map { it.pages[it.pages.size / 2].toLong() }
+    fun sumMiddlePageNumbers(
+        text: String,
+        validQueues: Boolean = true
+    ): Long {
+        val (rules, queues) = parseRulesAndQueues(text)
+
+        val filteredQueues = if (validQueues) {
+            queues.filter { it.isValid(rules) }
+        } else {
+            queues.filterNot { it.isValid(rules) }.map { it.sort(rules) }
+        }
+
+        val middlePageNumbers = filteredQueues.map { it.middlePage().toLong() }
         return middlePageNumbers.sum()
     }
+
 
 }

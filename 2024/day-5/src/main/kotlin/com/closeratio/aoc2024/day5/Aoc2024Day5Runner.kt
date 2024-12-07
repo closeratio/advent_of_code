@@ -13,8 +13,15 @@ class Aoc2024Day5Runner(
     override fun getDay(): Int = 5
 
     override fun part1Function(): () -> Long = {
-        printQueueValidator.sumValidMiddlePageNumbers(
+        printQueueValidator.sumMiddlePageNumbers(
             resourceLoader.loadResourceText("/2024_day_5_input.txt"),
+        )
+    }
+
+    override fun part2Function(): () -> Long = {
+        printQueueValidator.sumMiddlePageNumbers(
+            resourceLoader.loadResourceText("/2024_day_5_input.txt"),
+            false,
         )
     }
 }

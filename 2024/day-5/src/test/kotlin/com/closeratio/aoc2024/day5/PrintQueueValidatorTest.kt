@@ -16,12 +16,22 @@ class PrintQueueValidatorTest {
     private lateinit var resourceLoader: ResourceLoader
 
     @Test
-    fun sumValidMiddlePageNumbers() {
-        val result = printQueueValidator.sumValidMiddlePageNumbers(
+    fun sumMiddlePageNumbersValid() {
+        val result = printQueueValidator.sumMiddlePageNumbers(
             resourceLoader.loadResourceText("/test_input_1.txt")
         )
 
         assertThat(result).isEqualTo(143)
+    }
+
+    @Test
+    fun sumMiddlePageNumbersInvalid() {
+        val result = printQueueValidator.sumMiddlePageNumbers(
+            resourceLoader.loadResourceText("/test_input_1.txt"),
+            false
+        )
+
+        assertThat(result).isEqualTo(123)
     }
 
 }

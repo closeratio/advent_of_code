@@ -4,19 +4,22 @@ data class PrintQueue(
     val pages: List<Int>
 ) {
 
-    val pageIndexMap = pages
-        .mapIndexed { index, value -> value to index }
-        .toMap()
+    fun isValid(rules: List<OrderRule>) = this == sort(rules)
 
-    fun isValid(rules: List<OrderRule>) = rules.all { rule ->
-        val firstIndex = pageIndexMap[rule.first]
-        val secondIndex = pageIndexMap[rule.second]
+    fun sort(rules: List<OrderRule>): PrintQueue {
+        val sortedPages = pages.sortedWith { left, right ->
+            val potentialRules = setOf(
+                OrderRule(left, right),
+                OrderRule(right, left)
+            )
 
-        if (firstIndex != null && secondIndex != null) {
-            firstIndex < secondIndex
-        } else {
-            true
+            val rule = rules.first { it in potentialRules }
+            if (rule.first == left) -1 else 1
         }
+
+        return PrintQueue(sortedPages)
     }
+
+    fun middlePage(): Int = pages[pages.size / 2]
 
 }
