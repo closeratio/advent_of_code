@@ -90,6 +90,7 @@ class GuardSimulation {
                 }
             }
             .filter { it !in obstructions }
+            .filter { it != initialState.position }
             .map { possibleObstruction ->
                 countDistinctPositions(
                     obstructions + possibleObstruction,
