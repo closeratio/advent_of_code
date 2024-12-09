@@ -18,4 +18,11 @@ class Aoc2024Day8Runner(
         )
     }
 
+    override fun part2Function(): () -> Long = {
+        antennaAnalyser.countAntinodes(
+            resourceLoader.loadResourceLines("/2024_day_8_input.txt"),
+            true,
+        )
+    }
+
 }

@@ -38,7 +38,6 @@ data class Antenna(
 
         return antinodes
             .filter { it.x in 0..<width && it.y in 0..<height }
-            .filter { it != position && it != other.position }
             .toSet()
     }
 
