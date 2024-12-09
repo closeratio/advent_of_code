@@ -1,17 +1,22 @@
 package com.closeratio.aoc2024.day7
 
-import com.closeratio.aoc2024.day7.Operator.PLUS
+import com.closeratio.aoc2024.day7.Operator.*
 
-class Equation(
-    val parts: List<Pair<Operator, Long>>
+data class Equation(
+    val elements: List<Element>
 ) {
 
-    fun compute(): Long = parts
-        .fold(0L) { acc, (operator, value) ->
-            when (operator) {
-                PLUS -> acc + value
-                Operator.MULTIPLY -> acc * value
+    fun compute(): Long = elements
+        .drop(1)
+        .chunked(2)
+        .fold((elements.first() as Value).value) { acc, (operator, value) ->
+            value as Value
+            when (operator as Operator) {
+                PLUS -> acc + value.value
+                MULTIPLY -> acc * value.value
+                CONCATENATION -> ("$acc${value.value}".toLong())
             }
         }
 
 }
+

@@ -18,4 +18,11 @@ class Aoc2024Day7Runner(
         )
     }
 
+    override fun part2Function(): () -> Long = {
+        bridgeCalibrator.calibrate(
+            resourceLoader.loadResourceLines("/2024_day_7_input.txt"),
+            true,
+        )
+    }
+
 }

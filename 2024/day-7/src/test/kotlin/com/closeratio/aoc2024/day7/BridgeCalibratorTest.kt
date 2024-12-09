@@ -16,12 +16,32 @@ class BridgeCalibratorTest {
     private lateinit var resourceLoader: ResourceLoader
 
     @Test
-    fun calibrate() {
+    fun calibrateWithoutConcat() {
         val result = bridgeCalibrator.calibrate(
             resourceLoader.loadResourceLines("/test_input_1.txt")
         )
 
         assertThat(result).isEqualTo(3749)
+    }
+
+    @Test
+    fun calibrateWithConcatSingleValue() {
+        val result = bridgeCalibrator.calibrate(
+            resourceLoader.loadResourceLines("/test_input_2.txt"),
+            true
+        )
+
+        assertThat(result).isEqualTo(7290)
+    }
+
+    @Test
+    fun calibrateWithConcat() {
+        val result = bridgeCalibrator.calibrate(
+            resourceLoader.loadResourceLines("/test_input_1.txt"),
+            true
+        )
+
+        assertThat(result).isEqualTo(11387)
     }
 
 }
