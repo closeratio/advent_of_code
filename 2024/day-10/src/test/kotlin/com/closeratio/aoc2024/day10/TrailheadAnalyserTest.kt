@@ -32,4 +32,13 @@ class TrailheadAnalyserTest {
 
         assertThat(result).isEqualTo(36)
     }
+
+    @Test
+    fun sumTrailheadRatings_input2() {
+        val result = trailheadAnalyser.sumTrailheadRatings(
+            resourceLoader.loadResourceLines("/test_input_2.txt")
+        )
+
+        assertThat(result).isEqualTo(81)
+    }
 }

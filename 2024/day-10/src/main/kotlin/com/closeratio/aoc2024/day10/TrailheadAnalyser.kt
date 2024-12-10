@@ -19,41 +19,11 @@ class TrailheadAnalyser {
 
     fun sumTrailheadScores(
         input: List<String>
-    ): Long {
-        val map = parseMap(input)
-        val trailheads = map.findHeads()
+    ): Long = parseMap(input).sumTrailheadScores()
 
-        return trailheads
-            .map { calculateTrailheadScore(it, map) }
-            .sum()
-    }
-
-    private fun calculateTrailheadScore(
-        start: Vec2,
-        trailMap: TrailMap
-    ): Long {
-        val ends = mutableSetOf<Vec2>()
-        val toVisit = mutableSetOf(
-            *start
-            .immediatelyAdjacent()
-            .filter { trailMap[it] == 1 }
-            .toTypedArray()
-        )
-
-        while (toVisit.isNotEmpty()) {
-            val curr = toVisit.first()
-            toVisit.remove(curr)
-            val currHeight = trailMap[curr]
-
-            if (currHeight == 9) {
-                ends += curr
-            } else {
-                toVisit += curr.immediatelyAdjacent().filter { trailMap[it] == currHeight + 1 }
-            }
-        }
-
-        return ends.size.toLong()
-    }
+    fun sumTrailheadRatings(
+        input: List<String>
+    ): Long = parseMap(input).sumTrailheadRatings()
 
 }
 
