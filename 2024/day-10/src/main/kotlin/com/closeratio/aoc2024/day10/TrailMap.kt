@@ -19,27 +19,21 @@ data class TrailMap(
         start: Vec2,
         countDistinctRoutes: Boolean = false
     ): Long {
-        val ends = mutableListOf<Vec2>()
-        val toVisit = mutableSetOf(
-            *start
-                .immediatelyAdjacent()
-                .filter { get(it) == 1 }
-                .toTypedArray()
-        )
-
-        while (toVisit.isNotEmpty()) {
-            val curr = toVisit.first()
-            toVisit.remove(curr)
-            val currHeight = get(curr)
-
-            if (currHeight == 9) {
-                ends += curr
-            } else {
-                toVisit += curr.immediatelyAdjacent().filter { get(it) == currHeight + 1 }
-            }
-        }
+        val ends = findEnds(start)
 
         return if (countDistinctRoutes) ends.size.toLong() else ends.toSet().size.toLong()
+    }
+
+    private fun findEnds(curr: Vec2): List<Vec2> {
+        val currHeight = get(curr)
+        if (currHeight == 9) {
+            return listOf(curr)
+        }
+
+        return curr
+            .immediatelyAdjacent()
+            .filter { get(it) == currHeight + 1 }
+            .flatMap(::findEnds)
     }
 
     operator fun get(pos: Vec2): Int = map.getOrDefault(pos, -1)

@@ -18,4 +18,10 @@ class Aoc2024Day10Runner(
         )
     }
 
+    override fun part2Function(): () -> Long = {
+        trailheadAnalyser.sumTrailheadRatings(
+            resourceLoader.loadResourceLines("/2024_day_10_input.txt"),
+        )
+    }
+
 }
