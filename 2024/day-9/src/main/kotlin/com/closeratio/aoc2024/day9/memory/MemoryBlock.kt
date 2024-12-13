@@ -21,5 +21,7 @@ data class MemoryBlock(
         start = newStart
     )
 
-    override fun compareTo(other: MemoryBlock): Int = start.compareTo(other.size)
+    fun checksum(): Long = (start..<(start + size)).sumOf { it * id }
+
+    override fun compareTo(other: MemoryBlock): Int = start.compareTo(other.start)
 }

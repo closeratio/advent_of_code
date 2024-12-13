@@ -24,4 +24,13 @@ class DiskFragmenterTest {
         assertThat(result).isEqualTo(1928)
     }
 
+    @Test
+    fun defragmentAndCalculateChecksum() {
+        val result = diskFragmenter.defragmentAndCalculateChecksum(
+            resourceLoader.loadResourceText("/test_input_1.txt"),
+        )
+
+        assertThat(result).isEqualTo(2858)
+    }
+
 }

@@ -1,9 +1,7 @@
 package com.closeratio.aoc2024.day9.memory
 
-import java.util.*
-
 class CohesiveMemory(
-    val blocks: PriorityQueue<MemoryBlock>
+    val blocks: MutableList<MemoryBlock>
 ) {
 
     fun reorganiseAndCalculateChecksum(): Long {
@@ -12,6 +10,8 @@ class CohesiveMemory(
         blocksToReorganise.forEach { block ->
             val candidate = blocks
                 .windowed(2)
+                .filter { (first) -> first.start < block.start }
+                .filter { (first) -> first.id != block.id }
                 .firstOrNull { (first, second) ->
                     block.fitsBetween(first, second)
                 }
@@ -21,10 +21,11 @@ class CohesiveMemory(
                 val movedBlock = block.moveTo(candidate.start + candidate.size)
                 blocks.remove(block)
                 blocks.add(movedBlock)
+                blocks.sort()
             }
         }
 
-        return 0
+        return blocks.sumOf(MemoryBlock::checksum)
     }
 
     companion object {
@@ -44,9 +45,7 @@ class CohesiveMemory(
                 }
             }
 
-            return CohesiveMemory(
-                PriorityQueue<MemoryBlock>(blocks)
-            )
+            return CohesiveMemory(blocks)
         }
     }
 

@@ -18,4 +18,10 @@ class Aoc2024Day9Runner(
         )
     }
 
+    override fun part2Function(): () -> Long = {
+        diskFragmenter.defragmentAndCalculateChecksum(
+            resourceLoader.loadResourceText("/2024_day_9_input.txt"),
+        )
+    }
+
 }
