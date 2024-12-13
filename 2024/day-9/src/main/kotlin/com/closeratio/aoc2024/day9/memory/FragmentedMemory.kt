@@ -1,6 +1,6 @@
-package com.closeratio.aoc2024.day9
+package com.closeratio.aoc2024.day9.memory
 
-class Memory(
+class FragmentedMemory(
     val values: MutableList<Long?>
 ) {
     val maxValue = values.maxBy { it ?: -1 }
@@ -35,7 +35,7 @@ class Memory(
     }
 
     companion object {
-        fun from(input: String): Memory {
+        fun from(input: String): FragmentedMemory {
             val memory = mutableListOf<Long?>()
 
             input.chunked(2).forEachIndexed { index, chunk ->
@@ -52,8 +52,9 @@ class Memory(
                 }
             }
 
-            return Memory(memory)
+            return FragmentedMemory(memory)
         }
     }
 
 }
+
