@@ -8,14 +8,10 @@ class StoneProcessor {
     fun blink(
         input: String,
         times: Int
-    ): Long {
-        val initialSet = StoneSet.from(input)
-        var currentSet = initialSet
-        (0..<times).forEach { _ ->
-            currentSet = currentSet.blink()
-        }
-
-        return currentSet.count
-    }
+    ): Long = StoneSet
+        .from(input)
+        .blink(
+            times
+        )
 
 }

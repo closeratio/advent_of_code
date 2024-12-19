@@ -19,4 +19,11 @@ class Aoc2024Day11Runner(
         )
     }
 
+    override fun part2Function(): () -> Long = {
+        stoneProcessor.blink(
+            resourceLoader.loadResourceText("/2024_day_11_input.txt"),
+            75,
+        )
+    }
+
 }
