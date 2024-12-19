@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 val currentYear = 2024
 
 plugins {
     id("org.springframework.boot") version "3.4.0" apply false
-    id("io.spring.dependency-management") version "1.1.7" apply false
     kotlin("jvm") version "2.1.0" apply false
     kotlin("plugin.spring") version "2.1.0" apply false
 
@@ -32,6 +32,7 @@ subprojects {
     java.sourceCompatibility = JavaVersion.VERSION_17
 
     dependencies {
+        implementation(platform(BOM_COORDINATES))
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testFixturesImplementation("org.springframework.boot:spring-boot-starter-test")
