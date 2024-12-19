@@ -1,14 +1,22 @@
 package com.closeratio.aoc2024.day12
 
 import com.closeratio.aoc.common.math.Vec2
+import com.closeratio.aoc2024.day12.FenceCalculator.CalculationMethod.INDIVIDUAL_PANELS
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class FenceCalculator {
 
+    enum class CalculationMethod {
+        INDIVIDUAL_PANELS,
+        REGION_SIDES
+    }
+
+
     fun calculateFencePrice(
-        input: List<String>
+        input: List<String>,
+        calculationMethod: CalculationMethod = INDIVIDUAL_PANELS
     ): Long {
         val regions = input
             .flatMapIndexed { y, line ->
@@ -22,7 +30,7 @@ class FenceCalculator {
             .groupBy(Plot::type)
             .flatMap { calculateRegions(it.value) }
 
-        return regions.sumOf(Region::calculateFencePrice)
+        return regions.sumOf { it.calculateFencePrice(calculationMethod) }
     }
 
     private fun calculateRegions(
