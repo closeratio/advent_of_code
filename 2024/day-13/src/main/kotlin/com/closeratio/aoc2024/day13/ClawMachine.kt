@@ -9,13 +9,16 @@ data class ClawMachine(
     val prize: Vec2
 ) {
     companion object {
-        fun from(text: String): ClawMachine = text
+        fun from(
+            text: String,
+            prizeOffset: Vec2
+        ): ClawMachine = text
             .split(lineSeparator())
             .let { (firstLine, secondLine, thirdLine) ->
                 ClawMachine(
                     parseVec(firstLine),
                     parseVec(secondLine),
-                    parseVec(thirdLine)
+                    parseVec(thirdLine) + prizeOffset
                 )
             }
 
