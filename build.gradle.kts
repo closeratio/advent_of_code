@@ -7,8 +7,8 @@ val currentYear = 2024
 
 plugins {
     id("org.springframework.boot") version "3.4.5" apply false
-    kotlin("jvm") version "2.1.20" apply false
-    kotlin("plugin.spring") version "2.1.20" apply false
+    kotlin("jvm") version "2.1.21" apply false
+    kotlin("plugin.spring") version "2.1.21" apply false
 
     java
     `java-test-fixtures`
